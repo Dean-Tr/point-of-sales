@@ -4,24 +4,24 @@
 
 /* Hide scrollbar */
 ::-webkit-scrollbar {
-  width: 0px;
+  width: 5px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #888;
-  border-radius: 0px;
+  background: rgb(213, 213, 213);
+  border-radius: 3px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #000;
-  border-radius: 0px;
+  background: #9f9f9f;
+  border-radius: 3px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #7b7b7b;
 }
 
 input::-webkit-outer-spin-button,

@@ -3,7 +3,7 @@ import { Products } from "@/data.js";
 
 export default function Home() {
   return (
-    <div className="bg-white h-[calc(100vh-3rem)] w-screen flex flex-col md:flex-row">
+    <div className="bg-white h-[calc(100vh-3rem)] w-screen md:w-[calc(100vw-3rem)] flex flex-col md:flex-row">
       {/* LEFT PART */}
       <div className="h-full w-full flex-[1.5]">
         {/* SEARCH BAR */}
@@ -26,7 +26,7 @@ export default function Home() {
               key={item.id}
             >
               <div className="relative w-full h-full flex items-center justify-center">
-                <Image src={item.img} alt="product image" fill objectFit="contain" />
+                <Image src={item.img} alt="product image" fill style={{ objectFit: "contain" }} />
               </div>
               <div class="px-3 py-2">
                 <h5 class="text-sm font-semibold tracking-tight">{item.title}</h5>
@@ -44,10 +44,10 @@ export default function Home() {
       </div>
 
       {/* RIGHT PART */}
-      <div className="h-full w-full flex-1 flex flex-col items-center justify-between border-t-2 border-t-slate-600 md:border-l-2 md:border-l-slate-400 text-black bg-white">
+      <div className="h-full w-full flex-1 flex flex-col items-center justify-between md:border-l-[1px] md:border-l-slate-400 text-black bg-white">
         {/* DELETE BUTTON */}
         <div className="bg-[#40A2E3] w-full px-6 py-3 flex justify-between items-center">
-          <p className="text-base font-bold text-white">Detail Pembelian</p>
+          <p className="text-base font-bold text-white">Detail Belanjaan</p>
           <button className="cursor-pointer">
             <Image src="/delete.png" alt="" width={25} height={25} />
           </button>
