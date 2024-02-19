@@ -1,0 +1,2 @@
+perbaiki navbar scroll x harusnya tidak ada
+tambah display stok di product

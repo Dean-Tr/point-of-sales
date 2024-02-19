@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const links = [
   { id: 1, title: "Kasir", url: "/", img: "/kasir.png" },
@@ -14,6 +15,7 @@ const links = [
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <div className="h-12 md:h-screen w-[3rem] absolute md:static bg-blue-600 flex flex-col items-center ">
@@ -22,18 +24,19 @@ const Navbar = () => {
       </div>
 
       <div
-        className={`flex flex-col justify-start h-full w-full text-white bg-blue-600 ${
+        className={`flex flex-col justify-start w-full text-white bg-blue-600 ${
           open &&
-          "absolute left-0 top-12 h-[calc(100vh-48px)] w-screen justify-normal text-3xl md:text-base md:w-44 z-50"
+          "absolute left-0 top-12 h-[calc(100vh-48px)] w-screen md:w-44 justify-normal text-xl md:text-base z-50"
         }`}
       >
         {links.map((link) => (
           <Link
             href={link.url}
             key={link.id}
-            className={`md:flex gap-4 pl-3 py-6 md:py-4 hover:bg-blue-500 ${
-              open ? `flex` : `hidden`
-            }`}
+            className={`md:flex gap-4 pl-3 py-6 md:py-4 hover:bg-blue-500 
+            ${open ? `flex` : `hidden`} 
+            ${pathname === link.url && "bg-blue-500"}
+            `}
           >
             <Image src={link.img} alt="" width={25} height={25} />
             {open && <p>{link.title}</p>}
