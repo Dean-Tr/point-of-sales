@@ -5,7 +5,7 @@ import ProductBuy from "@/components/ProductBuy";
 
 export default function KasirPage() {
   return (
-    <div className="bg-slate-100 h-[calc(100vh-3rem)] w-screen md:w-[calc(100vw-3rem)] flex flex-col md:flex-row">
+    <div className="bg-slate-100 h-[calc(100vh-3rem)] md:h-screen w-screen md:w-[calc(100vw-3rem)] flex flex-col md:flex-row">
       {/* LEFT PART */}
       <div className="h-full w-full flex-[1.5]">
         {/* SEARCH BAR */}
@@ -21,7 +21,7 @@ export default function KasirPage() {
         </div>
 
         {/* PRODUCT LIST */}
-        <div className="w-full h-[calc(100vh-24rem)] md:h-[calc(100vh-8rem)] p-3 grid gap-3 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 grid-rows-[13rem] justify-items-center items-center overflow-y-scroll">
+        <div className="w-full h-[calc(100vh-24rem)] md:h-[calc(100vh-5rem)] p-3 grid gap-3 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 grid-rows-[13rem] justify-items-center items-center overflow-y-scroll">
           {Products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
@@ -31,7 +31,7 @@ export default function KasirPage() {
       {/* RIGHT PART */}
       <div className="h-full w-full flex-1 flex flex-col items-center justify-between md:border-l-[1px] md:border-l-slate-400 text-black">
         {/* DELETE BUTTON */}
-        <div className="bg-[#40A2E3] w-full px-6 py-3 flex justify-between items-center">
+        <div className="bg-blue-600 w-full px-8 py-3 flex justify-between items-center">
           <p className="text-base font-bold text-white">Detail Belanjaan</p>
           <button className="cursor-pointer">
             <Image src="/delete.png" alt="" width={25} height={25} />
@@ -39,7 +39,7 @@ export default function KasirPage() {
         </div>
 
         {/* BUY PRODUCT */}
-        <div className="w-full h-full max-h-[10.3rem] md:max-h-full max p-2 flex flex-col justify-start items-center gap-2 overflow-y-scroll">
+        <div className="w-full h-full md:h-[calc(100vh-8rem)] max-h-[10.3rem] md:max-h-full max p-2 flex flex-col justify-start items-center gap-2 overflow-y-scroll">
           {Products.map((product) => (
             <ProductBuy key={product.id} product={product} />
           ))}
@@ -47,10 +47,10 @@ export default function KasirPage() {
 
         {/* TOTAL PRICE */}
         <div className="w-full flex justify-between">
-          <p className="flex justify-center items-center w-full h-full py-4 bg-[#40A2E3] font-bold text-white">
+          <p className="flex justify-center items-center w-full h-full py-4 bg-blue-600 font-bold text-white">
             Rp 150.000
           </p>
-          <button className="w-full h-full bg-[#0D9276] text-white text-xl font-bold ">
+          <button className="w-full h-full bg-green-600 text-white text-xl font-bold ">
             Bayar
           </button>
         </div>

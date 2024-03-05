@@ -17,7 +17,7 @@ const ProductBuy = ({ product }) => {
         </span>
       </div>
       <div className="w-[35%] flex gap-2 justify-evenly items-center">
-        <button className="w-8 h-8 md:w-6 md:h-6 lg:w-8 lg:h-8 flex justify-center items-center bg-blue-300 rounded-lg text-xl md:text-base lg:text-xl text-white shadow-md">
+        <button className="w-8 h-8 md:w-6 md:h-6 lg:w-8 lg:h-8 flex justify-center items-center bg-blue-400 rounded-lg text-xl md:text-base lg:text-xl text-white shadow-md">
           {"-"}
         </button>
         <input
@@ -25,7 +25,7 @@ const ProductBuy = ({ product }) => {
           inputMode="numeric"
           className="w-8 h-8 md:w-6 md:h-6 lg:w-10 lg:h-8 text-sm py-1 text-center outline-none border rounded-lg shadow-md"
         />
-        <button className="w-8 h-8 md:w-6 md:h-6 lg:w-8 lg:h-8 flex justify-center items-center bg-blue-300 rounded-lg text-xl md:text-base lg:text-xl text-white shadow-md">
+        <button className="w-8 h-8 md:w-6 md:h-6 lg:w-8 lg:h-8 flex justify-center items-center bg-blue-400 rounded-lg text-xl md:text-base lg:text-xl text-white shadow-md">
           {"+"}
         </button>
       </div>

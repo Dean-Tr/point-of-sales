@@ -18,15 +18,27 @@ const Navbar = () => {
   const pathname = usePathname();
 
   return (
-    <div className="h-12 md:h-screen w-[3rem] absolute md:static bg-blue-600 flex flex-col items-center ">
-      <div onClick={() => setOpen(!open)} className=" cursor-pointer p-3 hover:bg-blue-500">
-        <Image src="/navbar.png" alt="" width={25} height={25} />
+    <div className="h-12 md:h-screen w-screen md:w-[3rem] bg-blue-600 flex flex-col md:items-center ">
+      <div className="flex h-full md:h-12">
+        <div
+          onClick={() => setOpen(!open)}
+          className="w-[3rem] cursor-pointer p-3 hover:bg-blue-500"
+        >
+          <Image src="/navbar.png" alt="" width={25} height={25} />
+        </div>
+        <div
+          className={`w-full flex justify-center items-center bg-blue-600 text-white uppercase font-bold md:absolute md:w-[8rem] md:h-12 md:left-12 md:z-50 md:text-sm ${
+            open ? "inline" : "md:hidden"
+          }`}
+        >
+          <span className="">Point of Sales</span>
+        </div>
       </div>
 
       <div
         className={`flex flex-col justify-start w-full text-white bg-blue-600 ${
           open &&
-          "absolute left-0 top-12 h-[calc(100vh-48px)] w-screen md:w-44 justify-normal text-xl md:text-base z-50"
+          "absolute left-0 top-12 h-[calc(100vh-3rem)] w-screen md:w-44 justify-normal text-xl md:text-base z-50"
         }`}
       >
         {links.map((link) => (
