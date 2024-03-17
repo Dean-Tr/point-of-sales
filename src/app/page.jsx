@@ -1,11 +1,21 @@
+"use client";
+
 import Image from "next/image";
 import { Products } from "@/data.js";
 import ProductCard from "@/components/ProductCard";
 import ProductBuy from "@/components/ProductBuy";
+import { useState } from "react";
 
 export default function KasirPage() {
+  const [search, setSearch] = useState("");
+  const query = search;
+
+  const filteredProducts = Products.filter((product) =>
+    product.title.toLowerCase().includes(query.toLowerCase())
+  );
+
   return (
-    <div className="bg-slate-100 h-[calc(100vh-3rem)] md:h-screen w-screen md:w-[calc(100vw-3rem)] flex flex-col md:flex-row">
+    <div className="bg-white h-[calc(100vh-3rem)] md:h-screen w-screen md:w-[calc(100vw-3rem)] flex flex-col md:flex-row">
       {/* LEFT PART */}
       <div className="h-full w-full flex-[1.5]">
         {/* SEARCH BAR */}
@@ -17,12 +27,15 @@ export default function KasirPage() {
             className="rounded-md w-full py-3 px-10 text-gray-900 placeholder:text-gray-400 md:text-lg md:leading-8 outline-none focus:shadow-2xl"
             type="text"
             placeholder="Cari barang..."
+            onChange={(e) => {
+              setSearch(e.target.value);
+            }}
           />
         </div>
 
         {/* PRODUCT LIST */}
         <div className="w-full h-[calc(100vh-24rem)] md:h-[calc(100vh-5rem)] p-3 grid gap-3 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 grid-rows-[13rem] justify-items-center items-center overflow-y-scroll">
-          {Products.map((product) => (
+          {filteredProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>

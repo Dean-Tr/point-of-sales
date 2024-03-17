@@ -152,3 +152,87 @@ export const Products = [
     stock: 32,
   },
 ];
+
+export const Transactions = [
+  {
+    transactionCode: 1,
+    date: "17 April 2024",
+    products: [
+      { title: "Sicilian", quantity: 3, price: 25000, totalPrice: 75000 },
+      { title: "Bacon Deluxe", quantity: 2, price: 20000, totalPrice: 40000 },
+      { title: "Bella Napoli", quantity: 1, price: 5000, totalPrice: 5000 },
+    ],
+    totalTransaction: 120000,
+    cash: 150000,
+    change: 30000,
+  },
+  {
+    transactionCode: 2,
+    date: "17 April 2024",
+    products: [
+      { title: "Spicy Arrabbiata", quantity: 1, price: 25000, totalPrice: 25000 },
+      { title: "Bacon Deluxe", quantity: 4, price: 20000, totalPrice: 80000 },
+    ],
+    totalTransaction: 105000,
+    cash: 110000,
+    change: 5000,
+  },
+  {
+    transactionCode: 3,
+    date: "18 April 2024",
+    products: [
+      { title: "Jalapeño Fiesta", quantity: 1, price: 26000, totalPrice: 26000 },
+      { title: "Margherita Magic", quantity: 2, price: 12000, totalPrice: 24000 },
+    ],
+    totalTransaction: 50000,
+    cash: 50000,
+    change: 0,
+  },
+  {
+    transactionCode: 4,
+    date: "18 April 2024",
+    products: [
+      { title: "Bacon Deluxe", quantity: 4, price: 20000, totalPrice: 80000 },
+      { title: "Jalapeño Fiesta", quantity: 1, price: 26000, totalPrice: 26000 },
+      { title: "Margherita Magic", quantity: 2, price: 12000, totalPrice: 24000 },
+      { title: "Garlic Parmesan Linguine", quantity: 3, price: 2000, totalPrice: 6000 },
+    ],
+    totalTransaction: 6000,
+    cash: 10000,
+    change: 4000,
+  },
+  {
+    transactionCode: 5,
+    date: "19 April 2024",
+    products: [
+      { title: "Sicilian", quantity: 3, price: 25000, totalPrice: 75000 },
+      { title: "Bacon Deluxe", quantity: 2, price: 20000, totalPrice: 40000 },
+      { title: "Jalapeño Fiesta", quantity: 1, price: 26000, totalPrice: 26000 },
+      { title: "Garlic Parmesan Linguine", quantity: 2, price: 2000, totalPrice: 4000 },
+      { title: "Mediterranean Delight", quantity: 3, price: 10000, totalPrice: 30000 },
+      { title: "Hawaiian Teriyaki", quantity: 1, price: 100000, totalPrice: 100000 },
+    ],
+    totalTransaction: 275000,
+    cash: 300000,
+    change: 25000,
+  },
+  {
+    transactionCode: 6,
+    date: "20 April 2024",
+    products: [
+      { title: "Jalapeño Fiesta", quantity: 1, price: 26000, totalPrice: 26000 },
+      { title: "Margherita Magic", quantity: 2, price: 12000, totalPrice: 24000 },
+    ],
+    totalTransaction: 50000,
+    cash: 50000,
+    change: 0,
+  },
+  {
+    transactionCode: 7,
+    date: "20 April 2024",
+    products: [{ title: "Garlic Parmesan Linguine", quantity: 1, price: 2000, totalPrice: 2000 }],
+    totalTransaction: 2000,
+    cash: 5000,
+    change: 3000,
+  },
+];
