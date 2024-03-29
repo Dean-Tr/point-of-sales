@@ -22,12 +22,12 @@ function SearchBar({ placeholder }) {
   }
 
   return (
-    <div className="relative my-2 mx-3 border rounded-md shadow-sm">
+    <div className="relative my-2 mx-3 md:w-1/3 border rounded-md shadow-sm">
       <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
         <Image src="/search.png" alt="" height={20} width={20} />
       </div>
       <input
-        className="rounded-md w-full py-3 px-10 text-gray-900 placeholder:text-gray-400 md:text-lg md:leading-8 outline-none"
+        className="rounded-md w-full py-2 md:py-3 px-10 text-gray-900 placeholder:text-gray-400 md:text-lg md:leading-8 outline-none"
         type="text"
         placeholder={placeholder}
         onChange={(e) => {

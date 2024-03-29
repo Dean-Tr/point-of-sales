@@ -19,31 +19,31 @@ const TransaksiPage = () => {
       </div>
 
       <div className="h-[calc(100vh-21rem)] md:h-[calc(100vh-17rem)] overflow-x-auto">
-        <table class="text-center w-full md:text-lg">
+        <table className="text-center w-full md:text-lg">
           <thead className="border-b border-neutral-200 font-medium">
             <tr className="">
-              <th scope="col" class="px-3 py-1">
+              <th scope="col" className="px-3 py-1">
                 #
               </th>
-              <th scope="col" class="px-3 py-1">
+              <th scope="col" className="px-3 py-1">
                 Tanggal
               </th>
-              <th scope="col" class="px-3 py-1">
-                Kode Transaksi
+              <th scope="col" className="px-3 py-1">
+                Kode
               </th>
-              <th scope="col" class="px-3 py-1">
+              <th scope="col" className="px-3 py-1">
                 barang
               </th>
-              <th scope="col" class="px-3 py-1">
+              <th scope="col" className="px-3 py-1">
                 Total
               </th>
-              <th scope="col" class="px-3 py-1">
+              <th scope="col" className="px-3 py-1">
                 Tunai
               </th>
-              <th scope="col" class="px-3 py-1">
+              <th scope="col" className="px-3 py-1">
                 Kembalian
               </th>
-              <th scope="col" class="px-3 py-1">
+              <th scope="col" className="px-3 py-1">
                 Aksi
               </th>
             </tr>
@@ -55,13 +55,13 @@ const TransaksiPage = () => {
                   {(currentPage - 1) * itemsPerPage + index + 1}
                 </td>
                 <td className="whitespace-nowrap px-3 py-1">{item.date}</td>
-                <td className="whitespace-nowrap px-3 py-1">{item.transactionCode}</td>
+                <td className="whitespace-nowrap px-3 py-1">{item.id}</td>
                 <td className="whitespace-nowrap px-3 py-1">
                   <div className="max-h-[5.4rem] flex justify-center overflow-y-auto overflow-x-hidden">
                     <table className="text-sm text-start">
                       <tbody>
                         {item.products.map((product) => (
-                          <tr key={product.title} className="border-b border-neutral-200">
+                          <tr key={product.title} className="">
                             <td className="whitespace-nowrap px-2 py-1">{product.title}</td>
                             <td className="whitespace-nowrap px-2 py-1">
                               {product.price.toLocaleString("id-ID", {
@@ -105,7 +105,7 @@ const TransaksiPage = () => {
                     minimumFractionDigits: 0,
                   })}
                 </td>
-                <td className="whitespace-nowrap px-3 py-1 h-20 md:h-24 w-56 xl:w-full flex justify-center items-center">
+                <td className="whitespace-nowrap px-3 py-1 h-20 md:h-24 w-56 md:w-full flex justify-center items-center">
                   <button className="mx-1 p-2 px-2 bg-blue-500 rounded-md text-white flex gap-1 items-center">
                     <Image src="/print.png" alt="" width={20} height={20} />
                     <p>Cetak Struk</p>

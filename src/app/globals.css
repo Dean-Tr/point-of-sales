@@ -2,9 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Hide scrollbar */
+/* Hide both Y and X scrollbar */
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 5px; /* for Y-axis scrollbar */
+  height: 5px; /* for X-axis scrollbar */
 }
 
 /* Track */
@@ -13,17 +14,29 @@
   border-radius: 3px;
 }
 
-/* Handle */
+/* Handle for Y-axis scrollbar */
 ::-webkit-scrollbar-thumb {
   background: #9f9f9f;
   border-radius: 3px;
 }
 
-/* Handle on hover */
+/* Handle for X-axis scrollbar */
+::-webkit-scrollbar-thumb:horizontal {
+  background: #9f9f9f;
+  border-radius: 3px;
+}
+
+/* Handle on hover for both Y and X-axis scrollbar */
 ::-webkit-scrollbar-thumb:hover {
   background: #7b7b7b;
 }
 
+/* Handle on hover for X-axis scrollbar */
+::-webkit-scrollbar-thumb:horizontal:hover {
+  background: #7b7b7b;
+}
+
+/* Remove spin buttons styling */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;

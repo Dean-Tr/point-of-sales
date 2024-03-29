@@ -1,2 +1,4 @@
-perbaiki navbar scroll x harusnya tidak ada
-tambah display stok di product
+tambah fitur dashboard
+
+di dashboard berisi total barang, total pengeluaran, total penjualan, total keuntungan, dan grafik keuntungan per periode
+

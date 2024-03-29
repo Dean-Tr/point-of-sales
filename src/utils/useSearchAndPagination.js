@@ -8,12 +8,14 @@ function useSearchAndPagination(Items) {
     (item) =>
       item.title?.toLowerCase().includes(query.toLowerCase()) ||
       item.date?.toLowerCase().includes(query.toLowerCase()) ||
-      item.transactionCode?.toString().includes(query.toString()) ||
+      item.category?.toLowerCase().includes(query.toLowerCase()) ||
+      item.desc?.toLowerCase().includes(query.toLowerCase()) ||
+      item.id?.toString().includes(query.toString()) ||
       item.products?.some((item) => item.title.toLowerCase().includes(query.toLowerCase()))
   );
 
   const currentPage = Number(searchParams.get("page")) || 1;
-  const itemsPerPage = 4;
+  const itemsPerPage = 8;
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = Math.min(startIndex + itemsPerPage, filteredItems.length);
