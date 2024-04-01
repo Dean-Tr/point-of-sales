@@ -18,10 +18,12 @@ module.exports = {
     "bg-red-800",
     "bg-green-800",
     "bg-yellow-800",
+    "bg-amber-800",
     "bg-blue-600",
     "bg-red-600",
     "bg-green-600",
     "bg-yellow-600",
+    "bg-amber-600",
   ],
   plugins: [],
 };

@@ -9,7 +9,7 @@ const links = [
   { id: 1, title: "Kasir", url: "/", img: "/kasir.png" },
   { id: 2, title: "Dashboard", url: "/dashboard", img: "/dashboard.png" },
   { id: 3, title: "Kategori", url: "/kategori", img: "/kategori.png" },
-  { id: 4, title: "Barang", url: "/barang", img: "/barang.png" },
+  { id: 4, title: "Produk", url: "/produk", img: "/produk.png" },
   { id: 5, title: "Pengeluaran", url: "/pengeluaran", img: "/pengeluaran.png" },
   { id: 6, title: "Transaksi", url: "/transaksi", img: "/transaksi.png" },
   { id: 7, title: "Laporan", url: "/laporan", img: "/laporan.png" },

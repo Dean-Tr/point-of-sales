@@ -36,7 +36,7 @@ const LaporanPage = () => {
       <div className="h-[calc(100vh-17rem)] md:h-[calc(100vh-13rem)] overflow-y-auto">
         <table className="text-center w-full md:text-lg">
           <thead className="border-b border-neutral-200 font-medium">
-            <tr className="">
+            <tr className="sticky top-0 z-10 bg-white">
               <th scope="col" className="px-6 py-3 w-[4%]">
                 #
               </th>
@@ -94,7 +94,7 @@ const LaporanPage = () => {
             ))}
           </tbody>
           <tfoot>
-            <tr className="sticky bottom-0 z-10 border-b border-neutral-200 bg-blue-100">
+            <tr className="sticky bottom-0 z-10 bg-blue-100">
               <td className="whitespace-nowrap px-6 py-3 w-[4%]"></td>
               <td className="whitespace-nowrap px-6 py-3 font-bold w-1/6">Total</td>
               <td className="whitespace-nowrap px-6 py-3 w-1/6">

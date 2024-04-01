@@ -24,7 +24,7 @@ const PengeluaranPage = () => {
       <div className="h-[calc(100vh-21rem)] md:h-[calc(100vh-17rem)] overflow-x-auto">
         <table class="text-center w-full md:text-lg">
           <thead className="border-b border-neutral-200 font-medium">
-            <tr className="">
+            <tr className="sticky top-0 z-10 bg-white">
               <th scope="col" className="px-6 py-1">
                 #
               </th>

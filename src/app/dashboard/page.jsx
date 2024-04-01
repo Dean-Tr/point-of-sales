@@ -1,5 +1,6 @@
+import BarChart from "@/components/BarChart";
 import DashboardCard from "@/components/DashboardCard";
-import { Transactions, Products, Expenses } from "@/data";
+import { Transactions, Products, Expenses, Category } from "@/data";
 import Image from "next/image";
 
 const DashboardPage = () => {
@@ -28,12 +29,19 @@ const DashboardPage = () => {
     <div className="bg-white h-[calc(100vh-3rem)] md:h-screen w-screen md:w-[calc(100vw-3rem)] p-6">
       <h1 className="text-3xl font-bold uppercase">Dashboard</h1>
 
-      <div className="my-8 flex justify-between items-center">
+      <div className="w-full my-4 grid gap-2 grid-cols-2 md:grid-cols-4 justify-items-center items-center">
         <DashboardCard
-          img={"/stok.png"}
+          img={"/produk.png"}
           color={"blue"}
-          title={"Total Barang"}
-          content={`${Products.length} Barang`}
+          title={"Total Produk"}
+          content={`${Products.length} Produk`}
+        />
+
+        <DashboardCard
+          img={"/kategori.png"}
+          color={"green"}
+          title={"Total Kategori"}
+          content={`${Category.length} Kategori`}
         />
 
         <DashboardCard
@@ -49,7 +57,7 @@ const DashboardPage = () => {
 
         <DashboardCard
           img={"/penjualan.png"}
-          color={"green"}
+          color={"amber"}
           title={"Total Penjualan"}
           content={totalTransactions.toLocaleString("id-ID", {
             style: "currency",
@@ -57,17 +65,13 @@ const DashboardPage = () => {
             minimumFractionDigits: 0,
           })}
         />
+      </div>
 
-        <DashboardCard
-          img={"/keuntungan.png"}
-          color={"yellow"}
-          title={"Total Keuntungan"}
-          content={totalProfit.toLocaleString("id-ID", {
-            style: "currency",
-            currency: "IDR",
-            minimumFractionDigits: 0,
-          })}
-        />
+      <div className="border-2  border-slate-400">
+        <h1 className="text-xl font-bold p-3">Grafik Keuntungan</h1>
+        <div className="h-[calc(100vh-24rem)] md:h-[calc(100vh-16rem)] w-full">
+          <BarChart />
+        </div>
       </div>
     </div>
   );

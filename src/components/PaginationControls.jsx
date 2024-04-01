@@ -35,7 +35,7 @@ function PaginationControls({ currentPage, totalPages }) {
   }
 
   return (
-    <div className="mt-5 lg:mt-0 flex gap-3 justify-center items-center">
+    <div className="mt-5 lg:mt-3 flex gap-3 justify-center items-center">
       <button
         onClick={() => {
           const newPage = Math.max(currentPage - 1, 1);

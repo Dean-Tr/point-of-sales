@@ -26,7 +26,7 @@ export default function KasirPage() {
           <input
             className="rounded-md w-full py-3 px-10 text-gray-900 placeholder:text-gray-400 md:text-lg md:leading-8 outline-none focus:shadow-2xl"
             type="text"
-            placeholder="Cari barang..."
+            placeholder="Cari produk..."
             onChange={(e) => {
               setSearch(e.target.value);
             }}

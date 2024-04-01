@@ -1,4 +1,2 @@
-tambah fitur dashboard
-
-di dashboard berisi total barang, total pengeluaran, total penjualan, total keuntungan, dan grafik keuntungan per periode
+selesaikan modal disetiap halaman
 
