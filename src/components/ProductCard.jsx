@@ -11,9 +11,6 @@ const ProductCard = ({ product }) => {
           style={{ objectFit: "contain", borderTopLeftRadius: "6px", borderTopRightRadius: "6px" }}
         />
       </div>
-      <div className="absolute p-1 bg-black rounded-ss-md opacity-70 text-white">
-        <span>{product.stock}</span>
-      </div>
       <div className="px-3 py-2">
         <h5 className="text-sm font-semibold tracking-tight">{product.title}</h5>
         <span className="text-sm font-bold text-slate-400">
