@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import { Products } from "@/data.js";
-import ProductCard from "@/components/ProductCard";
-import ProductBuy from "@/components/ProductBuy";
+import ProductCard from "@/components/Cashier/ProductCard";
+import ProductBuy from "@/components/Cashier/ProductBuy";
 import { useState } from "react";
 
 export default function KasirPage() {

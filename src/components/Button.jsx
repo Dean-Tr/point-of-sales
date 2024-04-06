@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 
 const Button = ({ img, title, color, onClick }) => {
   return (

@@ -1,5 +1,5 @@
-import BarChart from "@/components/BarChart";
-import DashboardCard from "@/components/DashboardCard";
+import BarChart from "@/components/Dashboard/BarChart";
+import DashboardCard from "@/components/Dashboard/DashboardCard";
 import { Transactions, Products, Expenses, Category } from "@/data";
 import Image from "next/image";
 

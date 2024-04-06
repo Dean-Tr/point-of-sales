@@ -16,7 +16,7 @@ datasource db {
 model Category {
   id        String    @id
   createdAt DateTime  @default(now())
-  title     String
+  title     String    @unique
   products  Product[]
 }
 
@@ -28,8 +28,8 @@ model Product {
   buyPrice  Decimal
   sellPrice Decimal
   stock     Int
-  category  Category @relation(fields: [catId], references: [id])
-  catId     String
+  category  Category @relation(fields: [catTitle], references: [title])
+  catTitle  String
 }
 
 model Expense {
