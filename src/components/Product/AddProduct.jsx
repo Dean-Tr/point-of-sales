@@ -1,57 +1,118 @@
 "use client";
 
 import { currencyToNumber, numberToCurrency } from "@/utils/convertToCurrency";
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../Button";
 import Modal from "react-modal";
+import { toast } from "react-toastify";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
-const ModalProduct = ({ category }) => {
+const AddProduct = () => {
+  const { isPending, error, data } = useQuery({
+    queryKey: ["categories"],
+    queryFn: () => fetch(`http://localhost:3000/api/categories`).then((res) => res.json()),
+  });
+
+  // let catData;
+  // useEffect(() => {
+  //   catData = data;
+  // }, [data]);
+
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const [formData, setFormData] = useState({
-    img: "",
-    name: "",
-    category: "",
+  const [inputs, setInputs] = useState({
+    title: "",
+    // catTitle: catData[0]?.title,
+    catTitle: "",
     buyPrice: 0,
     sellPrice: 0,
     stock: 0,
   });
+  const [file, setFile] = useState();
 
   const handleModalClose = () => {
-    setFormData({
-      img: "",
-      name: "",
-      category: "",
+    setInputs({
+      title: "",
+      catTitle: "",
       buyPrice: 0,
       sellPrice: 0,
       stock: 0,
     });
+    setFile();
     setIsOpenModal(false);
   };
 
-  const handleInputFormData = (e) => {
+  const handleInputs = (e) => {
     const { name, value } = e.target;
 
     const newValue = currencyToNumber(value);
     if (!isNaN(newValue) && (name === "buyPrice" || name === "sellPrice")) {
-      setFormData((prev) => ({
+      setInputs((prev) => ({
         ...prev,
         [name]: newValue,
       }));
     } else {
-      setFormData((prev) => ({
+      setInputs((prev) => ({
         ...prev,
         [name]: value,
       }));
     }
   };
 
+  const handleChangeImg = (e) => {
+    const target = e.target;
+    const item = target.files[0];
+    setFile(item);
+  };
+
+  const upload = async () => {
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", "point-of-sales");
+    const res = await fetch("https://api.cloudinary.com/v1_1/dean-tr/image/upload", {
+      method: "POST",
+      body: data,
+    });
+
+    const resData = await res.json();
+    return resData.url;
+  };
+
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: () => {
+      const numericStock = parseInt(inputs.stock);
+      let url;
+      upload().then((returnedUrl) => (url = returnedUrl));
+      return fetch(`http://localhost:3000/api/products/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...inputs,
+          img: url,
+          stock: numericStock,
+        }),
+      });
+    },
+    onSuccess(data) {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+      if (data.status === 201) {
+        toast.success("Produk berhasil ditambahkan!", { position: "bottom-right" });
+        setInput({ title: "" });
+        setIsOpenModal(false);
+      } else {
+        toast.error("Produk gagal ditambahkan!", { position: "bottom-right" });
+      }
+    },
+  });
+
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Convert the buyPrice and sellPrice back to numeric values
-    const numericBuyPrice = currencyToNumber(formData.buyPrice);
-    const numericSellPrice = currencyToNumber(formData.sellPrice);
+    mutation.mutate();
+    setIsOpenModal(false);
   };
+
+  console.log(inputs);
+
   return (
     <div>
       <div>
@@ -94,18 +155,18 @@ const ModalProduct = ({ category }) => {
               <div>
                 <div className="h-full flex gap-5 justify-center items-center mx-5 md:mx-14">
                   <label
-                    htmlFor="name"
+                    htmlFor="title"
                     className={`text-sm md:text-xl text-right font-semibold w-36 `}
                   >
                     Nama:
                   </label>
                   <input
                     type="text"
-                    name="name"
-                    id="name"
+                    name="title"
+                    id="title"
                     required
-                    value={formData.name}
-                    onChange={handleInputFormData}
+                    value={inputs.title}
+                    onChange={handleInputs}
                     className={`w-full text-sm md:text-lg px-3 py-1 md:leading-8 outline-none border-2 rounded-md `}
                   />
                 </div>
@@ -115,19 +176,19 @@ const ModalProduct = ({ category }) => {
               <div>
                 <div className="h-full flex gap-5 justify-center items-center mx-5 md:mx-14">
                   <label
-                    htmlFor="category"
+                    htmlFor="catTitle"
                     className={`text-sm md:text-xl text-right font-semibold w-36 `}
                   >
                     Kategori:
                   </label>
                   <select
-                    name="category"
-                    id="category"
-                    value={formData.category}
-                    onChange={handleInputFormData}
+                    name="catTitle"
+                    id="catTitle"
+                    value={inputs.catTitle}
+                    onChange={handleInputs}
                     className={`w-full text-xs md:text-lg px-3 py-2 md:leading-8 outline-none border-2 rounded-md `}
                   >
-                    {category.map((item) => (
+                    {data?.map((item) => (
                       <option value={item.title} key={item.id}>
                         {item.title}
                       </option>
@@ -149,8 +210,8 @@ const ModalProduct = ({ category }) => {
                     type="number"
                     name="stock"
                     id="stock"
-                    value={formData.stock}
-                    onChange={handleInputFormData}
+                    value={inputs.stock}
+                    onChange={handleInputs}
                     className={`w-full text-sm md:text-lg px-3 py-1 md:leading-8 outline-none border-2 rounded-md `}
                   />
                 </div>
@@ -170,8 +231,8 @@ const ModalProduct = ({ category }) => {
                     name="buyPrice"
                     id="buyPrice"
                     required
-                    value={numberToCurrency(formData.buyPrice)}
-                    onChange={handleInputFormData}
+                    value={numberToCurrency(inputs.buyPrice)}
+                    onChange={handleInputs}
                     className={`w-full text-sm md:text-lg px-3 py-1 md:leading-8 outline-none border-2 rounded-md `}
                   />
                 </div>
@@ -191,8 +252,8 @@ const ModalProduct = ({ category }) => {
                     name="sellPrice"
                     id="sellPrice"
                     required
-                    value={numberToCurrency(formData.sellPrice)}
-                    onChange={handleInputFormData}
+                    value={numberToCurrency(inputs.sellPrice)}
+                    onChange={handleInputs}
                     className={`w-full text-sm md:text-lg px-3 py-1 md:leading-8 outline-none border-2 rounded-md `}
                   />
                 </div>
@@ -211,8 +272,8 @@ const ModalProduct = ({ category }) => {
                     type="file"
                     name="img"
                     id="img"
-                    value={formData.img}
-                    onChange={handleInputFormData}
+                    value={inputs.img}
+                    onChange={handleChangeImg}
                     className={`w-full text-sm md:text-lg px-3 md:leading-8 outline-none border-2 rounded-md `}
                   />
                 </div>
@@ -229,4 +290,4 @@ const ModalProduct = ({ category }) => {
   );
 };
 
-export default ModalProduct;
+export default AddProduct;

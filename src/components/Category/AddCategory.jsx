@@ -4,8 +4,9 @@ import { useState } from "react";
 import Modal from "react-modal";
 import Button from "../Button";
 import { toast } from "react-toastify";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-const ModalAddCategory = () => {
+const AddCategory = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [input, setInput] = useState({
     title: "",
@@ -25,25 +26,31 @@ const ModalAddCategory = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await fetch(`http://localhost:3000/api/categories`, {
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: () => {
+      return fetch(`http://localhost:3000/api/categories/`, {
         method: "POST",
-        body: JSON.stringify({ ...input }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(input),
       });
-
-      const data = await res.json();
-      if (res.status === 201) {
-        toast.success("Kategori berhasil ditambahkan", { position: "bottom-right" });
+    },
+    onSuccess(data) {
+      queryClient.invalidateQueries({ queryKey: ["categories"] });
+      if (data.status === 201) {
+        toast.success("Kategori berhasil ditambahkan!", { position: "bottom-right" });
         setInput({ title: "" });
         setIsOpenModal(false);
       } else {
-        toast.error(data.message, { position: "bottom-right" });
+        toast.error("Kategori gagal ditambahkan!", { position: "bottom-right" });
       }
-    } catch (error) {
-      console.log(error);
-    }
+    },
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    mutation.mutate();
+    setIsOpenModal(false);
   };
 
   return (
@@ -79,7 +86,7 @@ const ModalAddCategory = () => {
           </div>
 
           <form
-            onSubmit={handleSubmit}
+            onSubmit={(e) => handleSubmit(e)}
             className="flex flex-col justify-between flex-2 mt-3 h-full"
           >
             <div className="h-full flex gap-5 justify-center items-center mx-5 md:mx-14">
@@ -111,4 +118,4 @@ const ModalAddCategory = () => {
   );
 };
 
-export default ModalAddCategory;
+export default AddCategory;

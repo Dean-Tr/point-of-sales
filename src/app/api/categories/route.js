@@ -7,19 +7,15 @@ export const GET = async () => {
     return new NextResponse(JSON.stringify(categories), { status: 200 });
   } catch (error) {
     console.log(error);
-    return new NextResponse(JSON.stringify({ message: "Something went wrong!" }), { status: 500 });
+    return new NextResponse(JSON.stringify({ message: "Terjadi kesalahan!" }), { status: 500 });
   }
-};
-
-const generateRandomNumber = (min, max) => {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
 export const POST = async (req) => {
   try {
     let id;
     do {
-      id = `C${generateRandomNumber(100000, 999999)}`;
+      id = `C${Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000}`;
       // Check if the ID already exists in the database
       const existingCategory = await prisma.category.findUnique({
         where: { id },
@@ -38,7 +34,7 @@ export const POST = async (req) => {
     return new NextResponse(JSON.stringify(category), { status: 201 });
   } catch (error) {
     console.log(error);
-    return new NextResponse(JSON.stringify({ message: "Kategori gagal ditambahkan!" }), {
+    return new NextResponse(JSON.stringify({ message: "Terjadi kesalahan!" }), {
       status: 500,
     });
   }
