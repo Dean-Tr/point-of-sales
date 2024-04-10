@@ -8,7 +8,7 @@ function useSearchAndPagination(Items) {
     (item) =>
       item.title?.toLowerCase().includes(query.toLowerCase()) ||
       item.date?.toLowerCase().includes(query.toLowerCase()) ||
-      item.category?.toLowerCase().includes(query.toLowerCase()) ||
+      item.catTitle?.toLowerCase().includes(query.toLowerCase()) ||
       item.desc?.toLowerCase().includes(query.toLowerCase()) ||
       item.id?.toString().includes(query.toString()) ||
       item.products?.some((item) => item.title.toLowerCase().includes(query.toLowerCase()))

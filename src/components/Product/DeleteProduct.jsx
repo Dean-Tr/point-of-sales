@@ -6,16 +6,19 @@ import { toast } from "react-toastify";
 import Modal from "react-modal";
 import { useState } from "react";
 
-const DeleteCategory = ({ id }) => {
+const DeleteProduct = ({ id, img }) => {
   const [loading, setLoading] = useState(false);
+
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: async ({ id }) => {
+    mutationFn: async ({ id, img }) => {
       setLoading(true);
       try {
-        const response = await fetch(`http://localhost:3000/api/categories/${id}`, {
+        const publicId = img.match(/\/v\d+\/(.+)\.\w+$/)[1];
+        const response = await fetch(`http://localhost:3000/api/products/${id}`, {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ publicId }),
         });
         setLoading(false);
         return response;
@@ -25,11 +28,11 @@ const DeleteCategory = ({ id }) => {
       }
     },
     onSuccess(data) {
-      queryClient.invalidateQueries({ queryKey: ["categories"] });
+      queryClient.invalidateQueries({ queryKey: ["products"] });
       if (data.status === 200) {
-        toast.success(`Kategori berhasil dihapus!`, { position: "bottom-right" });
+        toast.success(`Produk berhasil dihapus!`, { position: "bottom-right" });
       } else {
-        toast.error(`Kategori gagal dihapus!`, { position: "bottom-right" });
+        toast.error(`Produk gagal dihapus!`, { position: "bottom-right" });
       }
     },
   });
@@ -40,18 +43,18 @@ const DeleteCategory = ({ id }) => {
         <Modal
           isOpen={true}
           ariaHideApp={false}
-          contentLabel="Hapus kategori"
+          contentLabel="Hapus Produk"
           overlayClassName={"fixed top-0 left-0 right-0 bottom-0 bg-slate-900/[.6]"}
           className={
             "absolute top-5 left-5 right-5 md:left-32 md:right-32 lg:left-44 lg:right-44 border-2 bg-white overflow-auto outline-none p-3 z-50"
           }
           closeTimeoutMS={300}
         >
-          <p className="text-center items-center">Menghapus Kategori...</p>
+          <p className="text-center items-center">Menghapus Produk...</p>
         </Modal>
       )}
       <button
-        onClick={() => mutation.mutate({ id })}
+        onClick={() => mutation.mutate({ id, img })}
         className="mx-1 p-2 px-2 bg-red-500 rounded-md text-white flex gap-1 items-center"
       >
         <Image src="/delete.png" alt="" width={20} height={20} />
@@ -61,4 +64,4 @@ const DeleteCategory = ({ id }) => {
   );
 };
 
-export default DeleteCategory;
+export default DeleteProduct;

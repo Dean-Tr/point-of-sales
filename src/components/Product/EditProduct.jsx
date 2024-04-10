@@ -2,12 +2,12 @@
 
 import { currencyToNumber, numberToCurrency } from "@/utils/convertToCurrency";
 import { useEffect, useState } from "react";
-import Button from "../Button";
+import Image from "next/image";
 import Modal from "react-modal";
 import { toast } from "react-toastify";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
-const AddProduct = () => {
+const EditProduct = ({ item }) => {
   const { isPending, error, data } = useQuery({
     queryKey: ["categories"],
     queryFn: () => fetch(`http://localhost:3000/api/categories`).then((res) => res.json()),
@@ -15,36 +15,18 @@ const AddProduct = () => {
 
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [inputs, setInputs] = useState({
-    title: "",
-    catTitle: data && data.length > 0 ? data[0].title : "",
-    buyPrice: 0,
-    sellPrice: 0,
-    stock: 0,
-    minStock: 0,
+    title: item.title,
+    catTitle: item.catTitle,
+    buyPrice: item.buyPrice,
+    sellPrice: item.sellPrice,
+    stock: item.stock,
+    minStock: item.minStock,
   });
   const [file, setFile] = useState();
 
   const handleModalClose = () => {
-    setInputs({
-      title: "",
-      catTitle: data && data.length > 0 ? data[0].title : "",
-      buyPrice: 0,
-      sellPrice: 0,
-      stock: 0,
-      minStock: 0,
-    });
-    setFile();
     setIsOpenModal(false);
   };
-
-  useEffect(() => {
-    if (data && data.length > 0) {
-      setInputs((prevInputs) => ({
-        ...prevInputs,
-        catTitle: data[0].title,
-      }));
-    }
-  }, [data]);
 
   const handleInputs = (e) => {
     const { name, value } = e.target;
@@ -85,21 +67,23 @@ const AddProduct = () => {
   const [loading, setLoading] = useState(false);
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: async () => {
+    mutationFn: async ({ id, img }) => {
       setLoading(true);
 
       try {
         const url = file && (await upload());
         const numericStock = parseInt(inputs.stock);
         const numericMinStock = parseInt(inputs.minStock);
-        const response = await fetch(`http://localhost:3000/api/products/`, {
-          method: "POST",
+        const publicId = file && img && img.match(/\/v\d+\/(.+)\.\w+$/)[1];
+        const response = await fetch(`http://localhost:3000/api/products/${id}`, {
+          method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             ...inputs,
-            img: url,
+            img: url || title.img,
             stock: numericStock,
             minStock: numericMinStock,
+            publicId,
           }),
         });
         setLoading(false);
@@ -111,38 +95,30 @@ const AddProduct = () => {
     },
     onSuccess(data) {
       queryClient.invalidateQueries({ queryKey: ["products"] });
-      if (data.status === 201) {
-        toast.success("Produk berhasil ditambahkan!", { position: "bottom-right" });
-        setInputs({
-          title: "",
-          catTitle: inputs.catTitle,
-          buyPrice: 0,
-          sellPrice: 0,
-          stock: 0,
-          minStock: 0,
-        });
-        setFile();
+      if (data.status === 200) {
+        toast.success("Produk berhasil diperbarui!", { position: "bottom-right" });
         setIsOpenModal(false);
       } else {
-        toast.error("Produk gagal ditambahkan!", { position: "bottom-right" });
+        toast.error("Produk gagal diperbarui!", { position: "bottom-right" });
       }
     },
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    mutation.mutate();
+    mutation.mutate({ id: item.id, img: item.img });
   };
 
   return (
     <div>
       <div>
-        <Button
-          color={"green"}
-          img={"/tambah.png"}
-          title={"Tambah"}
+        <button
           onClick={() => setIsOpenModal(true)}
-        />
+          className="mx-1 p-2 px-2 bg-blue-500 rounded-md text-white flex gap-1 items-center"
+        >
+          <Image src="/edit.png" alt="" width={20} height={20} />
+          <p>Edit</p>
+        </button>
       </div>
       <div>
         <Modal
@@ -157,11 +133,11 @@ const AddProduct = () => {
           closeTimeoutMS={300}
         >
           {loading ? (
-            <p className="text-center items-center">Menambahkan Produk...</p>
+            <p className="text-center items-center">Memperbarui Produk...</p>
           ) : (
             <div className="h-full flex flex-col">
               <div className="flex flex-1 justify-between items-center px-3 pb-2 border-b">
-                <h1 className="font-bold text-xl">Tambah Produk</h1>
+                <h1 className="font-bold text-xl">Tambah produk</h1>
                 <span
                   onClick={handleModalClose}
                   className="font-bold text-3xl cursor-pointer text-red-500"
@@ -335,4 +311,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default EditProduct;

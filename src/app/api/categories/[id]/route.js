@@ -8,9 +8,7 @@ export const PUT = async (req, { params }) => {
     const body = await req.json();
 
     await prisma.category.update({
-      where: {
-        id: id,
-      },
+      where: { id },
       data: { title: body.title },
     });
     return new NextResponse(JSON.stringify({ message: "Kategori berhasil dirubah!" }), {

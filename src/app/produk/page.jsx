@@ -7,6 +7,9 @@ import PaginationControls from "@/components/PaginationControls";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import useSearchAndPagination from "@/utils/useSearchAndPagination";
+import DeleteProduct from "@/components/Product/DeleteProduct";
+import EditProduct from "@/components/Product/EditProduct";
+import { currencyToNumber } from "@/utils/convertToCurrency";
 
 const ProdukPage = () => {
   const { isPending, error, data } = useQuery({
@@ -83,28 +86,22 @@ const ProdukPage = () => {
                 <td className="whitespace-nowrap px-6 py-1">{item.catTitle}</td>
                 <td className="whitespace-nowrap px-6 py-1">{item.stock}</td>
                 <td className="whitespace-nowrap px-6 py-1">
-                  {item.buyPrice.toLocaleString("id-ID", {
+                  {currencyToNumber(item.buyPrice).toLocaleString("id-ID", {
                     style: "currency",
                     currency: "IDR",
                     minimumFractionDigits: 0,
                   })}
                 </td>
                 <td className="whitespace-nowrap px-6 py-1">
-                  {item.sellPrice.toLocaleString("id-ID", {
+                  {currencyToNumber(item.sellPrice).toLocaleString("id-ID", {
                     style: "currency",
                     currency: "IDR",
                     minimumFractionDigits: 0,
                   })}
                 </td>
                 <td className="whitespace-nowrap px-6 py-1 h-20 md:h-24 w-56 md:w-full flex justify-center items-center">
-                  <button className="mx-1 p-2 px-2 bg-blue-500 rounded-md text-white flex gap-1 items-center">
-                    <Image src="/edit.png" alt="" width={20} height={20} />
-                    <p>Edit</p>
-                  </button>
-                  <button className="mx-1 p-2 px-2 bg-red-500 rounded-md text-white flex gap-1 items-center">
-                    <Image src="/delete.png" alt="" width={20} height={20} />
-                    <p>Hapus</p>
-                  </button>
+                  <EditProduct item={item} />
+                  <DeleteProduct id={item.id} img={item.img} />
                 </td>
               </tr>
             ))}

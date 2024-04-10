@@ -28,6 +28,7 @@ model Product {
   buyPrice  Decimal
   sellPrice Decimal
   stock     Int
+  minStock  Int
   category  Category @relation(fields: [catTitle], references: [title])
   catTitle  String
 }
