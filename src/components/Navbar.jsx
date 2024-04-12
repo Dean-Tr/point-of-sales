@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { handleLogout } from "@/utils/actions";
 
 const links = [
   { id: 1, title: "Kasir", url: "/", img: "/kasir.png" },
@@ -13,12 +14,15 @@ const links = [
   { id: 5, title: "Pengeluaran", url: "/pengeluaran", img: "/pengeluaran.png" },
   { id: 6, title: "Transaksi", url: "/transaksi", img: "/transaksi.png" },
   { id: 7, title: "Laporan", url: "/laporan", img: "/laporan.png" },
-  { id: 8, title: "Logout", url: "/logout", img: "/logout.png" },
 ];
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+
+  if (pathname === "/login") {
+    return "";
+  }
 
   return (
     <div className="h-12 md:h-screen w-screen md:w-[3rem] bg-blue-600 flex flex-col md:items-center ">
@@ -49,7 +53,7 @@ const Navbar = () => {
             href={link.url}
             key={link.id}
             onClick={() => setOpen(false)}
-            className={`md:flex gap-4 pl-3 py-6 md:py-4 hover:bg-blue-500 
+            className={`w-full md:flex gap-4 pl-3 py-6 md:py-4 hover:bg-blue-500 
             ${open ? `flex` : `hidden`} 
             ${pathname === link.url && "bg-blue-500"}
             `}
@@ -58,6 +62,18 @@ const Navbar = () => {
             {open && <p>{link.title}</p>}
           </Link>
         ))}
+        <form action={handleLogout}>
+          <button
+            onClick={() => setOpen(false)}
+            className={`w-full md:flex gap-4 pl-3 py-6 md:py-4 hover:bg-blue-500 
+            ${open ? `flex` : `hidden`} 
+            ${pathname === "/logout" && "bg-blue-500"}
+            `}
+          >
+            <Image src={"/logout.png"} alt="" width={25} height={25} />
+            {open && <p>{"Logout"}</p>}
+          </button>
+        </form>
       </div>
     </div>
   );

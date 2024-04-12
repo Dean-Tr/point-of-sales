@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import QueryProvider from "@/components/QueryProvider";
+import AuthProvider from "@/components/AuthProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,15 +18,17 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <QueryProvider>
-          <div className="md:flex">
-            <div>
-              <Navbar />
+          <AuthProvider>
+            <div className="md:flex">
+              <div>
+                <Navbar />
+              </div>
+              <div>
+                {children}
+                <ToastContainer />
+              </div>
             </div>
-            <div>
-              {children}
-              <ToastContainer />
-            </div>
-          </div>
+          </AuthProvider>
         </QueryProvider>
       </body>
     </html>

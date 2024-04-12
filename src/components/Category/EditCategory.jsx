@@ -70,20 +70,31 @@ const EditCategory = ({ item }) => {
           <p>Edit</p>
         </button>
       </div>
-      <Modal
-        isOpen={isOpenModal}
-        ariaHideApp={false}
-        onRequestClose={handleModalClose}
-        contentLabel="Edit Kategori"
-        overlayClassName={"fixed top-0 left-0 right-0 bottom-0 bg-slate-900/[.6]"}
-        className={
-          "absolute top-5 left-5 right-5 md:left-32 md:right-32 lg:left-44 lg:right-44 border-2 bg-white overflow-auto outline-none p-3 z-50"
-        }
-        closeTimeoutMS={300}
-      >
-        {loading ? (
+      {loading ? (
+        <Modal
+          isOpen={true}
+          ariaHideApp={false}
+          contentLabel="Loading..."
+          overlayClassName={"fixed top-0 left-0 right-0 bottom-0 bg-slate-900/[.6]"}
+          className={
+            "absolute top-1/3 left-0 right-0 md:left-0 md:right-0 lg:left-44 lg:right-44 border-2 bg-white overflow-auto outline-none p-3 z-50"
+          }
+          closeTimeoutMS={300}
+        >
           <p className="text-center items-center">Memperbarui Kategori...</p>
-        ) : (
+        </Modal>
+      ) : (
+        <Modal
+          isOpen={isOpenModal}
+          ariaHideApp={false}
+          onRequestClose={handleModalClose}
+          contentLabel="Edit Kategori"
+          overlayClassName={"fixed top-0 left-0 right-0 bottom-0 bg-slate-900/[.6]"}
+          className={
+            "absolute top-5 left-5 right-5 md:left-32 md:right-32 lg:left-44 lg:right-44 border-2 bg-white overflow-auto outline-none p-3 z-50"
+          }
+          closeTimeoutMS={300}
+        >
           <div className="h-full flex flex-col">
             <div className="flex flex-1 justify-between items-center px-3 pb-2 border-b">
               <h1 className="font-bold text-xl">Edit Kategori</h1>
@@ -123,8 +134,8 @@ const EditCategory = ({ item }) => {
               </div>
             </form>
           </div>
-        )}
-      </Modal>
+        </Modal>
+      )}
     </div>
   );
 };

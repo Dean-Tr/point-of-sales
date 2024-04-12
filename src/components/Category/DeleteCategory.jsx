@@ -43,7 +43,7 @@ const DeleteCategory = ({ id }) => {
           contentLabel="Hapus kategori"
           overlayClassName={"fixed top-0 left-0 right-0 bottom-0 bg-slate-900/[.6]"}
           className={
-            "absolute top-5 left-5 right-5 md:left-32 md:right-32 lg:left-44 lg:right-44 border-2 bg-white overflow-auto outline-none p-3 z-50"
+            "absolute top-1/3 left-0 right-0 md:left-0 md:right-0 lg:left-44 lg:right-44 border-2 bg-white overflow-auto outline-none p-3 z-50"
           }
           closeTimeoutMS={300}
         >
