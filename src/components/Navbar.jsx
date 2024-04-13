@@ -12,8 +12,9 @@ const links = [
   { id: 3, title: "Kategori", url: "/kategori", img: "/kategori.png" },
   { id: 4, title: "Produk", url: "/produk", img: "/produk.png" },
   { id: 5, title: "Pengeluaran", url: "/pengeluaran", img: "/pengeluaran.png" },
-  { id: 6, title: "Transaksi", url: "/transaksi", img: "/transaksi.png" },
-  { id: 7, title: "Laporan", url: "/laporan", img: "/laporan.png" },
+  { id: 6, title: "Pembelian", url: "/pembelian", img: "/pembelian.png" },
+  { id: 7, title: "Transaksi", url: "/transaksi", img: "/transaksi.png" },
+  { id: 8, title: "Laporan", url: "/laporan", img: "/laporan.png" },
 ];
 
 const Navbar = () => {

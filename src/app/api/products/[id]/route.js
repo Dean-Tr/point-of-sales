@@ -68,7 +68,7 @@ export const DELETE = async (req, { params }) => {
     formData.append("signature", signature);
 
     await prisma.product.delete({
-      where: { id: id },
+      where: { id },
     });
 
     const responseImg = await fetch("https://api.cloudinary.com/v1_1/dean-tr/image/destroy", {

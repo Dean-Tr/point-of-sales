@@ -102,6 +102,17 @@ model Expense {
   reportId  String?
 }
 
+model Purchase {
+  id         String   @id
+  createdAt  DateTime @default(now())
+  date       DateTime
+  totalItem  Int
+  totalPrice Decimal
+  products   Json
+  Report     Report?  @relation(fields: [reportId], references: [id])
+  reportId   String?
+}
+
 model Transaction {
   id               String   @id
   createdAt        DateTime @default(now())
@@ -119,6 +130,7 @@ model Report {
   createdAt   DateTime      @default(now())
   transaction Transaction[]
   expense     Expense[]
+  purchase    Purchase[]
   grossProfit Decimal
   netProfit   Decimal
 }

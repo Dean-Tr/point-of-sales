@@ -22,7 +22,7 @@ function SearchBar({ placeholder }) {
   }
 
   return (
-    <div className="relative my-2 mx-3 md:w-1/3 border rounded-md shadow-sm">
+    <div className="relative my-2 md:w-1/3 border rounded-md shadow-sm">
       <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
         <Image src="/search.png" alt="" height={20} width={20} />
       </div>

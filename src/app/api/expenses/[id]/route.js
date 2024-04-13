@@ -7,9 +7,9 @@ export const PUT = async (req, { params }) => {
   try {
     const body = await req.json();
 
-    await prisma.category.update({
+    await prisma.expense.update({
       where: { id },
-      data: { title: body.title },
+      data: { ...body },
     });
     return new NextResponse(JSON.stringify({ message: "Kategori berhasil dirubah!" }), {
       status: 200,
@@ -23,10 +23,10 @@ export const PUT = async (req, { params }) => {
 export const DELETE = async (req, { params }) => {
   const { id } = params;
   try {
-    await prisma.category.delete({
+    await prisma.expense.delete({
       where: { id },
     });
-    return new NextResponse(JSON.stringify({ message: "Kategori berhasil dihapus!" }), {
+    return new NextResponse(JSON.stringify({ message: "Pengeluaran berhasil dihapus!" }), {
       status: 200,
     });
   } catch (error) {

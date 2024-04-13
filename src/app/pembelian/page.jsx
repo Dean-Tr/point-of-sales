@@ -3,18 +3,16 @@
 import PaginationControls from "@/components/PaginationControls";
 import SearchBar from "@/components/SearchBar";
 import useSearchAndPagination from "@/utils/useSearchAndPagination";
-import AddExpense from "@/components/Expense/AddExpense";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { currencyToNumber } from "@/utils/convertToCurrency";
-import ShowExpense from "@/components/Expense/ShowExpense";
-import DeleteExpense from "@/components/Expense/DeleteExpense";
-import EditExpense from "@/components/Expense/EditExpense";
+import Image from "next/image";
+import AddPurchase from "@/components/Purchase/AddPurchase";
 
-const PengeluaranPage = () => {
+const PembelianPage = () => {
   const { isPending, error, data } = useQuery({
-    queryKey: ["expenses"],
-    queryFn: () => fetch(`http://localhost:3000/api/expenses`).then((res) => res.json()),
+    queryKey: ["purchases"],
+    queryFn: () => fetch(`http://localhost:3000/api/purchases`).then((res) => res.json()),
   });
 
   const { paginatedItems, currentPage, totalPages, itemsPerPage } = useSearchAndPagination(
@@ -30,11 +28,11 @@ const PengeluaranPage = () => {
 
   return (
     <div className=" bg-white h-[calc(100vh-3rem)] md:h-screen w-screen md:w-[calc(100vw-3rem)] p-6">
-      <h1 className="text-3xl font-bold uppercase">Daftar Pengeluaran</h1>
+      <h1 className="text-3xl font-bold uppercase">Daftar Pembelian</h1>
 
       <div className="flex gap-6 justify-between my-8 items-center ">
-        <AddExpense />
-        <SearchBar placeholder={"Cari Pengeluaran..."} />
+        <AddPurchase />
+        <SearchBar placeholder={"Cari Pembelian..."} />
       </div>
 
       <div className="h-[calc(100vh-21rem)] md:h-[calc(100vh-17rem)] overflow-x-auto">
@@ -48,10 +46,10 @@ const PengeluaranPage = () => {
                 Tanggal
               </th>
               <th scope="col" className="px-6 py-1">
-                Deskripsi
+                Total Item
               </th>
               <th scope="col" className="px-6 py-1">
-                Nominal
+                Total harga
               </th>
               <th scope="col" className="px-6 py-1">
                 Aksi
@@ -69,20 +67,23 @@ const PengeluaranPage = () => {
                     dateStyle: "full",
                   })}
                 </td>
-                <td className="whitespace-pre px-6 py-1 overflow-auto">
-                  {item.desc.substring(0, 12)}...
-                </td>
+                <td className="whitespace-pre px-6 py-1 overflow-auto">{item.totalItem} Item</td>
                 <td className="whitespace-nowrap px-6 py-1">
-                  {currencyToNumber(item.nominal).toLocaleString("id-ID", {
+                  {currencyToNumber(item.totalPrice).toLocaleString("id-ID", {
                     style: "currency",
                     currency: "IDR",
                     minimumFractionDigits: 0,
                   })}
                 </td>
                 <td className="whitespace-nowrap px-6 py-1 h-20 md:h-24 w-56 md:w-full flex justify-center items-center">
-                  <ShowExpense item={item} />
-                  <EditExpense item={item} />
-                  <DeleteExpense id={item.id} />
+                  <button className="mx-1 p-2 px-2 bg-green-500 rounded-md text-white flex gap-1 items-center">
+                    <Image src="/detail.png" alt="" width={20} height={20} />
+                    <p>Detail</p>
+                  </button>
+                  <button className="mx-1 p-2 px-2 bg-red-500 rounded-md text-white flex gap-1 items-center">
+                    <Image src="/delete.png" alt="" width={20} height={20} />
+                    <p>Hapus</p>
+                  </button>
                 </td>
               </tr>
             ))}
@@ -95,4 +96,4 @@ const PengeluaranPage = () => {
   );
 };
 
-export default PengeluaranPage;
+export default PembelianPage;

@@ -1,26 +1,19 @@
-"use client";
-
-import Button from "../Button";
 import Modal from "react-modal";
+import Image from "next/image";
 import { currencyToNumber, numberToCurrency } from "@/utils/convertToCurrency";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-const AddExpense = () => {
+const EditExpense = ({ item }) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [inputs, setInputs] = useState({
-    date: "",
-    desc: "",
-    nominal: 0,
+    date: item.date.substring(0, 10),
+    desc: item.desc,
+    nominal: item.nominal,
   });
 
   const handleModalClose = () => {
-    setInputs({
-      date: "",
-      desc: "",
-      nominal: 0,
-    });
     setIsOpenModal(false);
   };
 
@@ -44,12 +37,12 @@ const AddExpense = () => {
   const [loading, setLoading] = useState(false);
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: async () => {
+    mutationFn: async ({ id }) => {
       setLoading(true);
 
       try {
-        const response = await fetch(`http://localhost:3000/api/expenses/`, {
-          method: "POST",
+        const response = await fetch(`http://localhost:3000/api/expenses/${id}`, {
+          method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             ...inputs,
@@ -65,34 +58,32 @@ const AddExpense = () => {
     },
     onSuccess(data) {
       queryClient.invalidateQueries({ queryKey: ["expenses"] });
-      if (data.status === 201) {
-        toast.success("Pengeluaran berhasil ditambahkan!", { position: "bottom-right" });
-        setInputs({
-          date: "",
-          desc: "",
-          nominal: 0,
-        });
+      if (data.status === 200) {
+        toast.success("Pengeluaran berhasil diperbarui!", { position: "bottom-right" });
         setIsOpenModal(false);
       } else {
-        toast.error("Pengeluaran gagal ditambahkan!", { position: "bottom-right" });
+        toast.error("Pengeluaran gagal diperbarui!", { position: "bottom-right" });
       }
     },
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    mutation.mutate();
+    mutation.mutate({ id: item.id });
   };
 
   return (
     <div>
       <div>
-        <Button
-          color={"green"}
-          img={"/tambah.png"}
-          title={"Tambah"}
+        <button
           onClick={() => setIsOpenModal(true)}
-        />
+          className="mx-1 p-2 px-2 bg-blue-500 rounded-md text-white flex gap-1 items-center"
+        >
+          <div className="hidden md:flex">
+            <Image src="/edit.png" alt="" width={20} height={20} />
+          </div>
+          <p>Edit</p>
+        </button>
       </div>
       <div>
         {loading ? (
@@ -106,7 +97,7 @@ const AddExpense = () => {
             }
             closeTimeoutMS={300}
           >
-            <p className="text-center items-center">Menambahkan Pengeluaran...</p>
+            <p className="text-center items-center">Memperbarui Pengeluaran...</p>
           </Modal>
         ) : (
           <Modal
@@ -212,4 +203,4 @@ const AddExpense = () => {
   );
 };
 
-export default AddExpense;
+export default EditExpense;
