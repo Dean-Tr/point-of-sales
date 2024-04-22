@@ -139,7 +139,7 @@ const EditProduct = ({ item }) => {
             isOpen={isOpenModal}
             ariaHideApp={false}
             onRequestClose={handleModalClose}
-            contentLabel="Tambah Produk Baru"
+            contentLabel="Edit Produk"
             overlayClassName={"fixed top-0 left-0 right-0 bottom-0 bg-slate-900/[.6]"}
             className={
               "absolute top-5 left-5 right-5 md:left-32 md:right-32 lg:left-44 lg:right-44 border-2 bg-white overflow-auto outline-none p-3 z-50"
@@ -148,7 +148,7 @@ const EditProduct = ({ item }) => {
           >
             <div className="h-full flex flex-col">
               <div className="flex flex-1 justify-between items-center px-3 pb-2 border-b">
-                <h1 className="font-bold text-xl">Tambah produk</h1>
+                <h1 className="font-bold text-xl">Edit produk</h1>
                 <span
                   onClick={handleModalClose}
                   className="font-bold text-3xl cursor-pointer text-red-500"
@@ -262,7 +262,7 @@ const EditProduct = ({ item }) => {
                       name="buyPrice"
                       id="buyPrice"
                       required
-                      value={numberToCurrency(inputs.buyPrice)}
+                      value={numberToCurrency(parseFloat(inputs.buyPrice))}
                       onChange={handleInputs}
                       className={`w-full text-sm md:text-lg px-3 py-1 md:leading-8 outline-none border-2 rounded-md `}
                     />
@@ -283,7 +283,7 @@ const EditProduct = ({ item }) => {
                       name="sellPrice"
                       id="sellPrice"
                       required
-                      value={numberToCurrency(inputs.sellPrice)}
+                      value={numberToCurrency(parseFloat(inputs.sellPrice))}
                       onChange={handleInputs}
                       className={`w-full text-sm md:text-lg px-3 py-1 md:leading-8 outline-none border-2 rounded-md `}
                     />

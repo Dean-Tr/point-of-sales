@@ -16,12 +16,11 @@ export const POST = async (req) => {
     let id;
     do {
       id = `P${Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000}`;
-      // Check if the ID already exists in the database
       const existingProduct = await prisma.product.findUnique({
         where: { id },
       });
       if (existingProduct) {
-        id = null; // Reset ID if it already exists
+        id = null;
       }
     } while (!id);
 

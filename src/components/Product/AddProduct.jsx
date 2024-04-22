@@ -191,7 +191,7 @@ const AddProduct = () => {
                   <div className="h-full flex gap-5 justify-center items-center mx-5 md:mx-14">
                     <label
                       htmlFor="title"
-                      className={`text-sm md:text-xl text-right font-semibold w-36 `}
+                      className={`text-sm md:text-xl text-right font-semibold w-52 `}
                     >
                       Nama:
                     </label>
@@ -212,7 +212,7 @@ const AddProduct = () => {
                   <div className="h-full flex gap-5 justify-center items-center mx-5 md:mx-14">
                     <label
                       htmlFor="catTitle"
-                      className={`text-sm md:text-xl text-right font-semibold w-36 `}
+                      className={`text-sm md:text-xl text-right font-semibold w-52 `}
                     >
                       Kategori:
                     </label>
@@ -237,7 +237,7 @@ const AddProduct = () => {
                   <div className="h-full flex gap-5 justify-center items-center mx-5 md:mx-14">
                     <label
                       htmlFor="stock"
-                      className={`text-sm md:text-xl text-right font-semibold w-36 `}
+                      className={`text-sm md:text-xl text-right font-semibold w-52 `}
                     >
                       Stok:
                     </label>
@@ -257,7 +257,7 @@ const AddProduct = () => {
                   <div className="h-full flex gap-5 justify-center items-center mx-5 md:mx-14">
                     <label
                       htmlFor="minStock"
-                      className={`text-sm md:text-xl text-right font-semibold w-36 `}
+                      className={`text-sm md:text-xl text-right font-semibold w-52 `}
                     >
                       Stok Minimal:
                     </label>
@@ -277,7 +277,7 @@ const AddProduct = () => {
                   <div className="h-full flex gap-5 justify-center items-center mx-5 md:mx-14">
                     <label
                       htmlFor="buyPrice"
-                      className={`text-sm md:text-xl text-right font-semibold w-36 `}
+                      className={`text-sm md:text-xl text-right font-semibold w-52 `}
                     >
                       Harga Beli:
                     </label>
@@ -298,7 +298,7 @@ const AddProduct = () => {
                   <div className="h-full flex gap-5 justify-center items-center mx-5 md:mx-14">
                     <label
                       htmlFor="sellPrice"
-                      className={`text-sm md:text-xl text-right font-semibold w-36 `}
+                      className={`text-sm md:text-xl text-right font-semibold w-52 `}
                     >
                       Harga Jual:
                     </label>
@@ -319,7 +319,7 @@ const AddProduct = () => {
                   <div className="h-full flex gap-5 justify-center items-center mx-5 md:mx-14">
                     <label
                       htmlFor="img"
-                      className={`text-sm md:text-xl text-right font-semibold w-36 `}
+                      className={`text-sm md:text-xl text-right font-semibold w-52 `}
                     >
                       Gambar:
                     </label>

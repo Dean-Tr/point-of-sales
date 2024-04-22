@@ -26,7 +26,7 @@ const BarChart = () => {
     for (let i = 29; i >= 0; i--) {
       let date = new Date(today);
       date.setDate(today.getDate() - i);
-      let dateString = date.toLocaleString("id-ID", { day: "2-digit" });
+      let dateString = date.toLocaleString("id-ID", { day: "2-digit", month: "2-digit" });
       dates.push(dateString);
     }
     return dates;

@@ -104,7 +104,7 @@ const EditExpense = ({ item }) => {
             isOpen={isOpenModal}
             ariaHideApp={false}
             onRequestClose={handleModalClose}
-            contentLabel="Tambah Pengeluaran Baru"
+            contentLabel="Edit Pengeluaran"
             overlayClassName={"fixed top-0 left-0 right-0 bottom-0 bg-slate-900/[.6]"}
             className={
               "absolute top-5 left-5 right-5 md:left-32 md:right-32 lg:left-44 lg:right-44 border-2 bg-white overflow-auto outline-none p-3 z-50"
@@ -113,7 +113,7 @@ const EditExpense = ({ item }) => {
           >
             <div className="h-full flex flex-col">
               <div className="flex flex-1 justify-between items-center px-3 pb-2 border-b">
-                <h1 className="font-bold text-xl">Tambah Pengeluaran</h1>
+                <h1 className="font-bold text-xl">Edit Pengeluaran</h1>
                 <span
                   onClick={handleModalClose}
                   className="font-bold text-3xl cursor-pointer text-red-500"
@@ -184,7 +184,7 @@ const EditExpense = ({ item }) => {
                       name="nominal"
                       id="nominal"
                       required
-                      value={numberToCurrency(inputs.nominal)}
+                      value={numberToCurrency(parseFloat(inputs.nominal))}
                       onChange={handleInputs}
                       className={`w-full text-sm md:text-lg px-3 py-1 md:leading-8 outline-none border-2 rounded-md `}
                     />

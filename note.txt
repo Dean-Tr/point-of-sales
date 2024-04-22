@@ -1,2 +1,4 @@
-selesaikan modal disetiap halaman
+selesaikan update pembelian
+
+merge dulu array item dan produk lalu masukan ke backend
 

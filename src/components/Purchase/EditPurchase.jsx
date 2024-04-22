@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 
-const AddPurchase = () => {
+const EditPurchase = ({ item }) => {
   const { isPending, error, data } = useQuery({
     queryKey: ["products"],
     queryFn: () => fetch(`http://localhost:3000/api/products`).then((res) => res.json()),
@@ -17,12 +17,12 @@ const AddPurchase = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   const [inputs, setInputs] = useState({
-    date: "",
-    totalItem: 0,
-    totalPrice: "",
+    date: item.date.substring(0, 10),
+    totalItem: item.totalItem,
+    totalPrice: item.totalPrice,
   });
 
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState(item.products);
 
   const [search, setSearch] = useState("");
   const filteredProducts = search
@@ -35,11 +35,6 @@ const AddPurchase = () => {
     : [];
 
   const handleModalClose = () => {
-    setInputs({
-      date: "",
-      totalItem: 0,
-      totalPrice: "",
-    });
     setIsOpenModal(false);
   };
 
@@ -133,6 +128,33 @@ const AddPurchase = () => {
     }
   };
 
+  const mergeItemAndProducts = (itemObject, productsArray) => {
+    const mergedProducts = [];
+
+    // Iterate through the products array of the item object
+    itemObject.products.forEach((product) => {
+      const existingProduct = productsArray.find((p) => p.id === product.id);
+
+      // If product ID already exists in the products array
+      if (existingProduct) {
+        product.quantity -= existingProduct.quantity;
+      }
+      mergedProducts.push({ ...product, quantity: -product.quantity });
+    });
+
+    // Iterate through the products array
+    productsArray.forEach((product) => {
+      const existingProduct = mergedProducts.find((p) => p.id === product.id);
+
+      // If product ID already exists in the summed array
+      if (!existingProduct) {
+        mergedProducts.push({ ...product });
+      }
+    });
+
+    return mergedProducts;
+  };
+
   useEffect(() => {
     const totalItem = products.reduce((acc, product) => acc + product.quantity, 0);
 
@@ -151,16 +173,18 @@ const AddPurchase = () => {
   const [loading, setLoading] = useState(false);
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: async () => {
+    mutationFn: async ({ id }) => {
       setLoading(true);
+      const newProducts = mergeItemAndProducts(item, products);
 
       try {
-        const response = await fetch(`http://localhost:3000/api/purchases/`, {
-          method: "POST",
+        const response = await fetch(`http://localhost:3000/api/purchases/${id}`, {
+          method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             ...inputs,
             products,
+            newProducts,
             date: new Date(inputs.date),
           }),
         });
@@ -172,36 +196,31 @@ const AddPurchase = () => {
       }
     },
     onSuccess(data) {
-      queryClient.invalidateQueries({ queryKey: ["purchases"] });
-      if (data.status === 201) {
-        toast.success("Pembelian berhasil ditambahkan!", { position: "bottom-right" });
-        setInputs({
-          date: "",
-          totalItem: 0,
-          totalPrice: "",
-        });
-        setProducts([]);
+      queryClient.invalidateQueries({ queryKey: ["purchases", "products"] });
+      if (data.status === 200) {
+        toast.success("Pembelian berhasil diperbarui!", { position: "bottom-right" });
         setIsOpenModal(false);
       } else {
-        toast.error("Pembelian gagal ditambahkan!", { position: "bottom-right" });
+        toast.error("Pembelian gagal diperbarui!", { position: "bottom-right" });
       }
     },
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    mutation.mutate();
+    mutation.mutate({ id: item.id });
   };
 
   return (
     <div>
       <div>
-        <Button
-          color={"green"}
-          img={"/tambah.png"}
-          title={"Tambah"}
+        <button
           onClick={() => setIsOpenModal(true)}
-        />
+          className="mx-1 p-2 px-2 bg-blue-500 rounded-md text-white flex gap-1 items-center"
+        >
+          <Image src="/edit.png" alt="" width={20} height={20} />
+          <p>Edit</p>
+        </button>
       </div>
       <div>
         {loading ? (
@@ -215,14 +234,14 @@ const AddPurchase = () => {
             }
             closeTimeoutMS={300}
           >
-            <p className="text-center items-center">Memproses Pembelian...</p>
+            <p className="text-center items-center">Memperbarui Pembelian...</p>
           </Modal>
         ) : (
           <Modal
             isOpen={isOpenModal}
             ariaHideApp={false}
             onRequestClose={handleModalClose}
-            contentLabel="Tambah Pembelian Baru"
+            contentLabel="Edit Pembelian"
             overlayClassName={"fixed top-0 left-0 right-0 bottom-0 bg-slate-900/[.6]"}
             className={
               "absolute top-5 left-5 right-5 md:left-32 md:right-32 lg:left-44 lg:right-44 border-2 bg-white outline-none p-3 z-30"
@@ -231,7 +250,7 @@ const AddPurchase = () => {
           >
             <div className="h-full flex flex-col">
               <div className="flex flex-1 justify-between items-center px-3 pb-2 border-b">
-                <h1 className="font-bold text-xl">Tambah Pembelian</h1>
+                <h1 className="font-bold text-xl">Edit Pembelian</h1>
                 <span
                   onClick={handleModalClose}
                   className="font-bold text-3xl cursor-pointer text-red-500"
@@ -495,4 +514,4 @@ const AddPurchase = () => {
   );
 };
 
-export default AddPurchase;
+export default EditPurchase;

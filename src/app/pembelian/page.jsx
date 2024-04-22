@@ -8,6 +8,9 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import { currencyToNumber } from "@/utils/convertToCurrency";
 import Image from "next/image";
 import AddPurchase from "@/components/Purchase/AddPurchase";
+import ShowPurchase from "@/components/Purchase/ShowPurchase";
+import DeletePurchase from "@/components/Purchase/DeletePurchase";
+import EditPurchase from "@/components/Purchase/EditPurchase";
 
 const PembelianPage = () => {
   const { isPending, error, data } = useQuery({
@@ -76,14 +79,9 @@ const PembelianPage = () => {
                   })}
                 </td>
                 <td className="whitespace-nowrap px-6 py-1 h-20 md:h-24 w-56 md:w-full flex justify-center items-center">
-                  <button className="mx-1 p-2 px-2 bg-green-500 rounded-md text-white flex gap-1 items-center">
-                    <Image src="/detail.png" alt="" width={20} height={20} />
-                    <p>Detail</p>
-                  </button>
-                  <button className="mx-1 p-2 px-2 bg-red-500 rounded-md text-white flex gap-1 items-center">
-                    <Image src="/delete.png" alt="" width={20} height={20} />
-                    <p>Hapus</p>
-                  </button>
+                  <ShowPurchase item={item} />
+                  <EditPurchase item={item} />
+                  <DeletePurchase item={item} />
                 </td>
               </tr>
             ))}
