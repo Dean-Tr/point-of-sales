@@ -1,18 +1,95 @@
 "use client";
 
 import Image from "next/image";
-import { Products } from "@/data.js";
 import ProductCard from "@/components/Cashier/ProductCard";
 import ProductBuy from "@/components/Cashier/ProductBuy";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import { currencyToNumber } from "@/utils/convertToCurrency";
+import PayTransaction from "@/components/Cashier/PayTransaction";
 
 export default function KasirPage() {
-  const [search, setSearch] = useState("");
-  const query = search;
+  const { isPending, error, data } = useQuery({
+    queryKey: ["products"],
+    queryFn: () => fetch(`http://localhost:3000/api/products`).then((res) => res.json()),
+  });
 
-  const filteredProducts = Products.filter((product) =>
-    product.title.toLowerCase().includes(query.toLowerCase())
+  const [search, setSearch] = useState("");
+
+  const filteredProducts = data?.filter(
+    (product) =>
+      product.title.toLowerCase().includes(search.toLowerCase()) ||
+      product.catTitle.toLowerCase().includes(search.toLowerCase())
   );
+
+  const [inputs, setInputs] = useState({
+    grossProfit: 0,
+    totalTransaction: 0,
+    cash: 0,
+    change: 0,
+  });
+
+  const [products, setProducts] = useState([]);
+
+  const handleAddProducts = (id, title, img, buyPrice, sellPrice) => {
+    const existingProductIndex = products.findIndex((p) => p.id === id);
+
+    if (existingProductIndex !== -1) {
+      const updatedProducts = [...products];
+      updatedProducts[existingProductIndex].quantity += 1;
+      updatedProducts[existingProductIndex].subTotal =
+        updatedProducts[existingProductIndex].sellPrice *
+        updatedProducts[existingProductIndex].quantity;
+
+      setProducts(updatedProducts);
+    } else {
+      const newProduct = {
+        id,
+        title,
+        img,
+        buyPrice: parseFloat(buyPrice),
+        sellPrice: parseFloat(sellPrice),
+        quantity: 1,
+        subTotal: parseFloat(sellPrice),
+      };
+
+      setProducts((prevProducts) => [...prevProducts, newProduct]);
+    }
+  };
+
+  const handleDeleteAllProducts = () => {
+    setProducts([]);
+  };
+
+  useEffect(() => {
+    const totalItem = products.reduce((acc, product) => acc + product.quantity, 0);
+    const grossProfit = products.reduce(
+      (acc, product) =>
+        acc +
+        (totalItem * currencyToNumber(product.sellPrice) -
+          totalItem * currencyToNumber(product.buyPrice)),
+      0
+    );
+
+    const totalTransaction = products.reduce(
+      (acc, product) => acc + currencyToNumber(product.subTotal),
+      0
+    );
+
+    setInputs((prev) => ({
+      ...prev,
+      grossProfit: parseFloat(grossProfit),
+      totalTransaction: parseFloat(totalTransaction),
+    }));
+  }, [products]);
+
+  if (isPending)
+    return (
+      <div className="flex justify-center items-center h-[calc(100vh-3rem)] md:h-screen w-screen md:w-[calc(100vw-3rem)]">
+        <LoadingSpinner />
+      </div>
+    );
 
   return (
     <div className="bg-white h-[calc(100vh-3rem)] md:h-screen w-screen md:w-[calc(100vw-3rem)] flex flex-col md:flex-row">
@@ -36,7 +113,21 @@ export default function KasirPage() {
         {/* PRODUCT LIST */}
         <div className="w-full h-[calc(100vh-24rem)] md:h-[calc(100vh-5rem)] p-3 grid gap-3 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 grid-rows-[13rem] justify-items-center items-center overflow-y-scroll">
           {filteredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <div
+              key={product.id}
+              onClick={() =>
+                handleAddProducts(
+                  product.id,
+                  product.title,
+                  product.img,
+                  product.buyPrice,
+                  product.sellPrice
+                )
+              }
+              className="w-full h-full"
+            >
+              <ProductCard key={product.id} product={product} />
+            </div>
           ))}
         </div>
       </div>
@@ -46,26 +137,40 @@ export default function KasirPage() {
         {/* DELETE BUTTON */}
         <div className="bg-blue-600 w-full px-8 py-3 flex justify-between items-center">
           <p className="text-base font-bold text-white">Detail Belanjaan</p>
-          <button className="cursor-pointer">
+          <div onClick={handleDeleteAllProducts} className="cursor-pointer">
             <Image src="/delete.png" alt="" width={25} height={25} />
-          </button>
+          </div>
         </div>
 
         {/* BUY PRODUCT */}
         <div className="w-full h-full md:h-[calc(100vh-8rem)] max-h-[10.3rem] md:max-h-full max p-2 flex flex-col justify-start items-center gap-2 overflow-y-scroll">
-          {Products.map((product) => (
-            <ProductBuy key={product.id} product={product} />
+          {products.map((product) => (
+            <ProductBuy
+              key={product.id}
+              product={product}
+              products={products}
+              setProducts={setProducts}
+            />
           ))}
         </div>
 
         {/* TOTAL PRICE */}
         <div className="w-full flex justify-between">
-          <p className="flex justify-center items-center w-full h-full py-4 bg-blue-600 font-bold text-white">
-            Rp 150.000
+          <p className="flex flex-1 justify-center items-center py-4 bg-blue-600 font-bold text-white">
+            {inputs.totalTransaction.toLocaleString("id-ID", {
+              style: "currency",
+              currency: "IDR",
+              minimumFractionDigits: 0,
+            })}
           </p>
-          <button className="w-full h-full bg-green-600 text-white text-xl font-bold ">
-            Bayar
-          </button>
+          <div className="flex flex-1 justify-center items-center">
+            <PayTransaction
+              inputs={inputs}
+              products={products}
+              setInputs={setInputs}
+              setProducts={setProducts}
+            />
+          </div>
         </div>
       </div>
     </div>
