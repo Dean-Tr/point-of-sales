@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { currencyToNumber } from "@/utils/convertToCurrency";
 import PayTransaction from "@/components/Cashier/PayTransaction";
+import { toast } from "react-toastify";
 
 export default function KasirPage() {
   const { isPending, error, data } = useQuery({
@@ -26,13 +27,14 @@ export default function KasirPage() {
   const [inputs, setInputs] = useState({
     grossProfit: 0,
     totalTransaction: 0,
+    totalItem: 0,
     cash: 0,
     change: 0,
   });
 
   const [products, setProducts] = useState([]);
 
-  const handleAddProducts = (id, title, img, buyPrice, sellPrice) => {
+  const handleAddProducts = (id, title, img, stock, buyPrice, sellPrice) => {
     const existingProductIndex = products.findIndex((p) => p.id === id);
 
     if (existingProductIndex !== -1) {
@@ -44,17 +46,21 @@ export default function KasirPage() {
 
       setProducts(updatedProducts);
     } else {
-      const newProduct = {
-        id,
-        title,
-        img,
-        buyPrice: parseFloat(buyPrice),
-        sellPrice: parseFloat(sellPrice),
-        quantity: 1,
-        subTotal: parseFloat(sellPrice),
-      };
-
-      setProducts((prevProducts) => [...prevProducts, newProduct]);
+      if (stock !== 0) {
+        const newProduct = {
+          id,
+          title,
+          img,
+          stock,
+          buyPrice: parseFloat(buyPrice),
+          sellPrice: parseFloat(sellPrice),
+          quantity: 1,
+          subTotal: parseFloat(sellPrice),
+        };
+        setProducts((prevProducts) => [...prevProducts, newProduct]);
+      } else {
+        toast.error(`Stok ${title} kosong!`, { position: "bottom-right" });
+      }
     }
   };
 
@@ -79,6 +85,7 @@ export default function KasirPage() {
 
     setInputs((prev) => ({
       ...prev,
+      totalItem,
       grossProfit: parseFloat(grossProfit),
       totalTransaction: parseFloat(totalTransaction),
     }));
@@ -120,6 +127,7 @@ export default function KasirPage() {
                   product.id,
                   product.title,
                   product.img,
+                  product.stock,
                   product.buyPrice,
                   product.sellPrice
                 )

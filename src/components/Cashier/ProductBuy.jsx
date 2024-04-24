@@ -2,49 +2,51 @@ import Image from "next/image";
 
 const ProductBuy = ({ product, products, setProducts }) => {
   const handleDeleteProducts = (id) => {
-    const updatedProducts = products.filter((product) => product.id !== id);
+    const updatedProducts = products.filter((prd) => prd.id !== id);
     setProducts(updatedProducts);
   };
 
   const handleIncrementQuantity = (id) => {
-    const updatedProducts = products.map((product) => {
-      if (product.id === id) {
+    const updatedProducts = products.map((prd) => {
+      if (prd.id === id && prd.quantity < prd.stock) {
         return {
-          ...product,
-          quantity: product.quantity + 1,
-          subTotal: product.sellPrice * (product.quantity + 1),
+          ...prd,
+          quantity: prd.quantity + 1,
+          subTotal: prd.sellPrice * (prd.quantity + 1),
         };
       }
-      return product;
+      return prd;
     });
     setProducts(updatedProducts);
   };
 
   const handleDecrementQuantity = (id) => {
-    const updatedProducts = products.map((product) => {
-      if (product.id === id && product.quantity > 1) {
+    const updatedProducts = products.map((prd) => {
+      if (prd.id === id && prd.quantity > 1) {
         return {
-          ...product,
-          quantity: product.quantity - 1,
-          subTotal: product.sellPrice * (product.quantity - 1),
+          ...prd,
+          quantity: prd.quantity - 1,
+          subTotal: prd.sellPrice * (prd.quantity - 1),
         };
       }
-      return product;
+      return prd;
     });
     setProducts(updatedProducts);
   };
 
   const handleQuantityChange = (newValue, id) => {
     const parsedValue = parseInt(newValue);
-    const updatedProducts = products.map((product) => {
-      if (product.id === id) {
+    const updatedProducts = products.map((prd) => {
+      if (prd.id === id) {
         return {
-          ...product,
-          quantity: isNaN(parsedValue) ? 0 : parsedValue,
-          subTotal: product.sellPrice * (isNaN(parsedValue) ? 0 : parsedValue),
+          ...prd,
+          quantity: isNaN(parsedValue) ? 0 : parsedValue < prd.stock ? parsedValue : prd.stock,
+          subTotal:
+            prd.sellPrice *
+            (isNaN(parsedValue) ? 0 : parsedValue < prd.stock ? parsedValue : prd.stock),
         };
       }
-      return product;
+      return prd;
     });
     setProducts(updatedProducts);
   };
@@ -73,7 +75,7 @@ const ProductBuy = ({ product, products, setProducts }) => {
       <div className="w-[35%] flex gap-2 justify-evenly items-center">
         <div
           onClick={() => handleDecrementQuantity(product.id)}
-          className="w-8 h-8 md:w-6 md:h-6 lg:w-8 lg:h-8 flex justify-center items-center bg-blue-400 rounded-lg text-xl md:text-base lg:text-xl text-white shadow-md cursor-pointer"
+          className="w-8 h-8 md:w-6 md:h-6 lg:w-8 lg:h-8 flex justify-center items-center bg-blue-400 rounded-lg text-xl md:text-base lg:text-xl text-white shadow-md cursor-pointer select-none"
         >
           {"-"}
         </div>
@@ -85,7 +87,7 @@ const ProductBuy = ({ product, products, setProducts }) => {
         />
         <div
           onClick={() => handleIncrementQuantity(product.id)}
-          className="w-8 h-8 md:w-6 md:h-6 lg:w-8 lg:h-8 flex justify-center items-center bg-blue-400 rounded-lg text-xl md:text-base lg:text-xl text-white shadow-md cursor-pointer"
+          className="w-8 h-8 md:w-6 md:h-6 lg:w-8 lg:h-8 flex justify-center items-center bg-blue-400 rounded-lg text-xl md:text-base lg:text-xl text-white shadow-md cursor-pointer pointer select-none"
         >
           {"+"}
         </div>

@@ -117,6 +117,7 @@ model Transaction {
   id               String   @id
   createdAt        DateTime @default(now())
   products         Json
+  totalItem        Int
   grossProfit      Decimal
   totalTransaction Decimal
   cash             Decimal

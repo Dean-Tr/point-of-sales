@@ -1,6 +1,16 @@
 import prisma from "@/utils/connect";
 import { NextResponse } from "next/server";
 
+export const GET = async () => {
+  try {
+    const transactions = await prisma.transaction.findMany();
+    return new NextResponse(JSON.stringify(transactions), { status: 200 });
+  } catch (error) {
+    console.log(error);
+    return new NextResponse(JSON.stringify({ message: "Terjadi kesalahan!" }), { status: 500 });
+  }
+};
+
 export const POST = async (req) => {
   try {
     let id;
