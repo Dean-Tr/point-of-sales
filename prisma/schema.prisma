@@ -109,8 +109,6 @@ model Purchase {
   totalItem  Int
   totalPrice Decimal
   products   Json
-  Report     Report?  @relation(fields: [reportId], references: [id])
-  reportId   String?
 }
 
 model Transaction {
@@ -127,11 +125,11 @@ model Transaction {
 }
 
 model Report {
-  id          String        @id
+  id          String        @id @default(cuid())
   createdAt   DateTime      @default(now())
+  date        DateTime
   transaction Transaction[]
   expense     Expense[]
-  purchase    Purchase[]
   grossProfit Decimal
   netProfit   Decimal
 }

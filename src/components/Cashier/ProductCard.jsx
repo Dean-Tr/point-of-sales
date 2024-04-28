@@ -2,10 +2,10 @@ import Image from "next/image";
 
 const ProductCard = ({ product }) => {
   return (
-    <div className="relative w-full min-w-[8rem] max-w-[13rem] h-[13rem] flex flex-col justify-between text-slate-700 bg-white border rounded-lg shadow-md hover:shadow-xl cursor-pointer">
+    <div className="relative w-full min-w-[8rem] max-w-[13rem] h-[13rem] flex flex-col justify-between text-slate-700 bg-white border rounded-lg shadow-md hover:shadow-xl cursor-pointer select-none">
       <div className="relative w-full h-full flex items-center justify-center">
         <Image
-          src={product.img}
+          src={product.img || "/produkHitam.png"}
           alt="product image"
           fill
           priority={true}

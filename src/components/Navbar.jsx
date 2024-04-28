@@ -27,10 +27,10 @@ const Navbar = () => {
 
   return (
     <div className="h-12 md:h-screen w-screen md:w-[3rem] bg-blue-600 flex flex-col md:items-center ">
-      <div className="flex h-full md:h-12">
+      <div className="flex h-full md:h-12 ">
         <div
           onClick={() => setOpen(!open)}
-          className="w-[3rem] cursor-pointer p-3 hover:bg-blue-500"
+          className="w-[3rem] cursor-pointer p-3 hover:bg-blue-500 select-none"
         >
           <Image src="/navbar.png" alt="" width={25} height={25} />
         </div>
@@ -54,7 +54,7 @@ const Navbar = () => {
             href={link.url}
             key={link.id}
             onClick={() => setOpen(false)}
-            className={`w-full md:flex gap-4 pl-3 py-6 md:py-4 hover:bg-blue-500 
+            className={`w-full md:flex gap-4 pl-3 py-6 md:py-4 justify-center md:justify-start hover:bg-blue-500 
             ${open ? `flex` : `hidden`} 
             ${pathname === link.url && "bg-blue-500"}
             `}
@@ -66,7 +66,7 @@ const Navbar = () => {
         <form action={handleLogout}>
           <button
             onClick={() => setOpen(false)}
-            className={`w-full md:flex gap-4 pl-3 py-6 md:py-4 hover:bg-blue-500 
+            className={`w-full md:flex gap-4 pl-3 py-6 md:py-4 justify-center md:justify-start hover:bg-blue-500 
             ${open ? `flex` : `hidden`} 
             ${pathname === "/logout" && "bg-blue-500"}
             `}

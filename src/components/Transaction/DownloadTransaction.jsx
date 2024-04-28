@@ -69,34 +69,34 @@ const DownloadTransaction = ({ item }) => {
             </div>
 
             {/* Struk yang akan diprint */}
-            <div className="flex flex-col gap-3 p-6" id="receipt">
+            <div className="flex flex-col gap-1 p-6" id="receipt">
               <div className="text-center mb-3">
-                <h1 className="font-bold text-base">WARUNG IMAS ROSTIKA</h1>
+                <h1 className="font-bold text-sm">WARUNG IMAS ROSTIKA</h1>
                 <p className="text-xs">JL. BABAKAN CIANJUR DS. SUKAMANAH</p>
               </div>
 
-              <div className="text-sm">
-                <div className="flex justify-between items-center ">
+              <div className="text-xs">
+                <div className="flex justify-between items-center">
                   <p>No: {item.id}</p>
                   <p>{item.createdAt.split("T")[0]}</p>
                 </div>
-                <p>============================</p>
+                <p>=================================</p>
               </div>
 
-              <div className="text-sm">
+              <div className="text-xs">
                 {item.products.map((product) => (
-                  <div className="flex justify-between items-center" key={product.id}>
-                    <p className="w-28">{product.title}</p>
-                    <p className="w-20 text-end">{product.sellPrice.toLocaleString("id-ID")}</p>
-                    <p className="w-10 text-center">X</p>
-                    <p className="w-16 text-start">{product.quantity}</p>
+                  <div className="flex justify-between items-center mb-2" key={product.id}>
+                    <p className="w-36">{product.title}</p>
+                    <p className="w-14 text-end">{product.sellPrice.toLocaleString("id-ID")}</p>
+                    <p className="w-2 mx-2 text-center">X</p>
+                    <p className="w-6 text-start">{product.quantity}</p>
                     <p className="w-20 text-end">{product.subTotal.toLocaleString("id-ID")}</p>
                   </div>
                 ))}
-                <p>----------------------------------------</p>
+                <p>-----------------------------------------------</p>
               </div>
 
-              <div className="text-sm">
+              <div className="text-xs">
                 <div className="flex justify-between items-center">
                   <p>Total: </p>
                   <p>{parseFloat(item.totalTransaction).toLocaleString("id-ID")}</p>
@@ -109,11 +109,11 @@ const DownloadTransaction = ({ item }) => {
                   <p>Kembali: </p>
                   <p>{parseFloat(item.change).toLocaleString("id-ID")}</p>
                 </div>
-                <p>============================</p>
+                <p>=================================</p>
               </div>
 
               <div className="text-center">
-                <p className="text-sm">-- TERIMA KASIH --</p>
+                <p className="text-xs">-- TERIMA KASIH --</p>
               </div>
             </div>
 

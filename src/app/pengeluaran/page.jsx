@@ -70,7 +70,7 @@ const PengeluaranPage = () => {
                   })}
                 </td>
                 <td className="whitespace-pre px-6 py-1 overflow-auto">
-                  {item.desc.substring(0, 12)}...
+                  {item.desc.length > 12 ? item.desc.substring(0, 12) + "..." : item.desc}
                 </td>
                 <td className="whitespace-nowrap px-6 py-1">
                   {currencyToNumber(item.nominal).toLocaleString("id-ID", {

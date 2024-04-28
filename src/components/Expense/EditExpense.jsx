@@ -11,6 +11,7 @@ const EditExpense = ({ item }) => {
     date: item.date.substring(0, 10),
     desc: item.desc,
     nominal: item.nominal,
+    reportId: item.reportId,
   });
 
   const handleModalClose = () => {

@@ -40,10 +40,10 @@ const ProductBuy = ({ product, products, setProducts }) => {
       if (prd.id === id) {
         return {
           ...prd,
-          quantity: isNaN(parsedValue) ? 0 : parsedValue < prd.stock ? parsedValue : prd.stock,
+          quantity: isNaN(parsedValue) ? 1 : parsedValue < prd.stock ? parsedValue : prd.stock,
           subTotal:
             prd.sellPrice *
-            (isNaN(parsedValue) ? 0 : parsedValue < prd.stock ? parsedValue : prd.stock),
+            (isNaN(parsedValue) ? 1 : parsedValue < prd.stock ? parsedValue : prd.stock),
         };
       }
       return prd;
@@ -55,7 +55,7 @@ const ProductBuy = ({ product, products, setProducts }) => {
     <div className="w-full px-6 py-3 flex gap-2 rounded-lg shadow-md justify-between items-center bg-white">
       <div className="w-[20%]">
         <Image
-          src={product.img}
+          src={product.img || "/produkHitam.png"}
           alt="product image"
           width={60}
           height={60}

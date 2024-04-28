@@ -1,0 +1,2 @@
+laporan lanjutkan untuk memilih tanggalnya,
+perbaiki struk belanjaan jika produk yang dibelinya banyak
