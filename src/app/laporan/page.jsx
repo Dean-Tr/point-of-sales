@@ -1,151 +1,83 @@
 "use client";
 
-import Button from "@/components/Button";
-import { Reports } from "@/data";
-import React, { useState } from "react";
-import Modal from "react-modal";
+import SelectPeriode from "@/components/Report/SelectPeriode";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import Image from "next/image";
+import { useState } from "react";
 
 const LaporanPage = () => {
+  const [reportsData, setReportsData] = useState([]);
+  const [receiptLoader, setReceiptLoader] = useState(false);
+
   function countTotalReports(reports) {
     let totalTransaction = 0;
     let totalExpense = 0;
     let totalGrossProfit = 0;
     let totalNetProfit = 0;
 
-    reports.forEach((report) => {
-      totalTransaction += report.transaction;
-      totalExpense += report.expense;
-      totalGrossProfit += report.grossProfit;
-      totalNetProfit += report.netProfit;
+    reports?.forEach((report) => {
+      totalTransaction += report.transaction.reduce(
+        (acc, t) => acc + parseFloat(t.totalTransaction),
+        0
+      );
+      totalExpense += report.expense.reduce((acc, e) => acc + parseFloat(e.nominal), 0);
     });
+    totalGrossProfit += reports.reduce((acc, r) => acc + parseFloat(r.grossProfit), 0);
+    totalNetProfit += reports.reduce((acc, r) => acc + parseFloat(r.netProfit), 0);
 
     return { totalTransaction, totalExpense, totalGrossProfit, totalNetProfit };
   }
 
-  const { totalTransaction, totalExpense, totalGrossProfit, totalNetProfit } =
-    countTotalReports(Reports);
-
-  const [isOpenModal, setIsOpenModal] = useState(false);
-  const [formData, setFormData] = useState({
-    startDate: "",
-    endDate: "",
-  });
-
-  const handleModalClose = () => {
-    setFormData({
-      startDate: "",
-      endDate: "",
+  const downloadPDF = () => {
+    const capture = document.querySelector("#report");
+    setReceiptLoader(true);
+    html2canvas(capture, { scale: 5 }).then((canvas) => {
+      const imgData = canvas.toDataURL("img/png");
+      const doc = new jsPDF({
+        orientation: "landscape",
+        unit: "mm",
+        format: "a4",
+      });
+      const componentWidth = doc.internal.pageSize.getWidth();
+      const componentHeight = doc.internal.pageSize.getHeight();
+      doc.addImage(imgData, "PNG", 0, 0, componentWidth, componentHeight);
+      setReceiptLoader(false);
+      doc.save(
+        `LAPORAN_${reportsData[0]?.date?.split("T")[0]}_${
+          reportsData[reportsData?.length - 1]?.date?.split("T")[0]
+        }.pdf`
+      );
     });
-    setIsOpenModal(false);
   };
 
-  const handleInputFormData = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  function compareDates(a, b) {
+    return new Date(a.date) - new Date(b.date);
+  }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
+  const { totalTransaction, totalExpense, totalGrossProfit, totalNetProfit } = countTotalReports(
+    reportsData || []
+  );
 
   return (
     <div className=" bg-white h-[calc(100vh-3rem)] md:h-screen w-screen md:w-[calc(100vw-3rem)] p-6">
       <h1 className="text-3xl font-bold uppercase">Laporan Keuangan</h1>
 
-      <div className="flex gap-6 my-8 items-center ">
-        <Button
-          color={"blue"}
-          img={"/ubahPeriode.png"}
-          title={"Ubah Periode"}
-          onClick={() => setIsOpenModal(true)}
-        />
-        <Button color={"green"} img={"/unduhLaporan.png"} title={"Unduh Laporan"} />
-      </div>
-
-      <div>
-        <Modal
-          isOpen={isOpenModal}
-          ariaHideApp={false}
-          onRequestClose={handleModalClose}
-          contentLabel="Tambah Kategori Baru"
-          overlayClassName={"fixed top-0 left-0 right-0 bottom-0 bg-slate-900/[.6]"}
-          className={
-            "absolute top-5 left-5 right-5 md:left-32 md:right-32 lg:left-44 lg:right-44 border-2 bg-white overflow-auto outline-none p-3 z-50"
-          }
-          closeTimeoutMS={300}
+      <div className="flex gap-6 my-8 items-center">
+        <SelectPeriode setReportsData={setReportsData} />
+        <button
+          onClick={downloadPDF}
+          disabled={!(receiptLoader === false)}
+          className={`flex gap-2 justify-center items-center bg-green-600 py-2 px-6 md:py-3 rounded-md text-xs md:text-base text-white`}
         >
-          <div className="h-full flex flex-col">
-            <div className="flex flex-1 justify-between items-center px-3 pb-2 border-b">
-              <h1 className="font-bold text-xl">Periode Laporan</h1>
-              <span
-                onClick={handleModalClose}
-                className="font-bold text-3xl cursor-pointer text-red-500"
-              >
-                x
-              </span>
-            </div>
-
-            <form
-              action=""
-              onSubmit={handleSubmit}
-              className="flex flex-col gap-5 justify-between flex-2 mt-5 h-full"
-            >
-              {/* input tanggal awal */}
-              <div>
-                <div className="h-full flex gap-5 justify-center items-center mx-5 md:mx-14">
-                  <label
-                    htmlFor="startDate"
-                    className={`text-sm md:text-xl text-right font-semibold w-48 `}
-                  >
-                    Tanggal Awal:
-                  </label>
-                  <input
-                    type="date"
-                    name="startDate"
-                    id="startDate"
-                    required
-                    value={formData.startDate}
-                    onChange={handleInputFormData}
-                    className={`w-full text-sm md:text-lg px-3 py-1 md:leading-8 outline-none border-2 rounded-md `}
-                  />
-                </div>
-              </div>
-
-              {/* input tanggal akhir */}
-              <div>
-                <div className="h-full flex gap-5 justify-center items-center mx-5 md:mx-14">
-                  <label
-                    htmlFor="endDate"
-                    className={`text-sm md:text-xl text-right font-semibold w-48  `}
-                  >
-                    Tanggal Akhir:
-                  </label>
-                  <input
-                    type="date"
-                    name="endDate"
-                    id="endDate"
-                    required
-                    value={formData.endDate}
-                    onChange={handleInputFormData}
-                    className={`w-full text-sm md:text-lg px-3 py-1 md:leading-8 outline-none border-2 rounded-md `}
-                  />
-                </div>
-              </div>
-
-              <div className="flex justify-end border-t mt-3 pt-2">
-                <button className="bg-blue-600 text-white px-3 py-2 rounded-md">Simpan</button>
-              </div>
-            </form>
-          </div>
-        </Modal>
+          <Image src={"/unduhLaporan.png"} alt="" height={20} width={20} />
+          {receiptLoader ? <span>Mengunduh</span> : <span>Unduh Laporan</span>}
+        </button>
       </div>
 
       <div className="h-[calc(100vh-17rem)] md:h-[calc(100vh-13rem)] overflow-y-auto">
-        <table className="text-center w-full md:text-lg">
-          <thead className="border-b border-neutral-200 font-medium">
+        <table className="text-center w-full md:text-lg" id="report">
+          <thead className="border-b-2 border-neutral-200 font-medium">
             <tr className="sticky top-0 bg-white">
               <th scope="col" className="px-6 py-3 w-[4%]">
                 #
@@ -168,33 +100,41 @@ const LaporanPage = () => {
             </tr>
           </thead>
           <tbody>
-            {Reports.map((item, index) => (
+            {reportsData.sort(compareDates).map((item, index) => (
               <tr className="border-b border-neutral-200" key={item.id}>
                 <td className="whitespace-nowrap px-6 py-3">{index + 1}</td>
-                <td className="whitespace-nowrap px-6 py-3">{item.date}</td>
                 <td className="whitespace-nowrap px-6 py-3">
-                  {item.transaction.toLocaleString("id-ID", {
+                  {new Date(item.date.split("T")[0]).toLocaleString("id-ID", {
+                    dateStyle: "full",
+                  })}
+                </td>
+                <td className="whitespace-nowrap px-6 py-3">
+                  {item.transaction
+                    .reduce((acc, t) => acc + parseFloat(t.totalTransaction), 0)
+                    .toLocaleString("id-ID", {
+                      style: "currency",
+                      currency: "IDR",
+                      minimumFractionDigits: 0,
+                    })}
+                </td>
+                <td className="whitespace-nowrap px-6 py-3">
+                  {item.expense
+                    .reduce((acc, e) => acc + parseFloat(e.nominal), 0)
+                    .toLocaleString("id-ID", {
+                      style: "currency",
+                      currency: "IDR",
+                      minimumFractionDigits: 0,
+                    })}
+                </td>
+                <td className="whitespace-nowrap px-6 py-3">
+                  {parseFloat(item.grossProfit).toLocaleString("id-ID", {
                     style: "currency",
                     currency: "IDR",
                     minimumFractionDigits: 0,
                   })}
                 </td>
                 <td className="whitespace-nowrap px-6 py-3">
-                  {item.expense.toLocaleString("id-ID", {
-                    style: "currency",
-                    currency: "IDR",
-                    minimumFractionDigits: 0,
-                  })}
-                </td>
-                <td className="whitespace-nowrap px-6 py-3">
-                  {item.grossProfit.toLocaleString("id-ID", {
-                    style: "currency",
-                    currency: "IDR",
-                    minimumFractionDigits: 0,
-                  })}
-                </td>
-                <td className="whitespace-nowrap px-6 py-3">
-                  {item.netProfit.toLocaleString("id-ID", {
+                  {parseFloat(item.netProfit).toLocaleString("id-ID", {
                     style: "currency",
                     currency: "IDR",
                     minimumFractionDigits: 0,

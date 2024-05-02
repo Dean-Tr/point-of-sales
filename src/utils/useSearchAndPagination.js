@@ -48,12 +48,35 @@ function useSearchAndPagination(Items) {
       })
     : [];
 
+  function compareDates(a, b) {
+    return new Date(b.date) - new Date(a.date);
+  }
+
+  // Custom comparison function to sort by title
+  function compareTitles(a, b) {
+    const titleA = a.title?.toUpperCase(); // ignore upper and lowercase
+    const titleB = b.title?.toUpperCase(); // ignore upper and lowercase
+
+    if (titleA < titleB) {
+      return -1;
+    }
+    if (titleA > titleB) {
+      return 1;
+    }
+
+    // titles are equal
+    return 0;
+  }
+
   const currentPage = Number(searchParams.get("page")) || 1;
   const itemsPerPage = 8;
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = Math.min(startIndex + itemsPerPage, filteredItems.length);
-  const paginatedItems = filteredItems.slice(startIndex, endIndex);
+  const paginatedItems = filteredItems
+    .sort(compareTitles)
+    .sort(compareDates)
+    .slice(startIndex, endIndex);
 
   return { paginatedItems, currentPage, totalPages, itemsPerPage };
 }

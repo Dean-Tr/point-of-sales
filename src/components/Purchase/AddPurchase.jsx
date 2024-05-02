@@ -28,7 +28,11 @@ const AddPurchase = () => {
   const filteredProducts = search
     ? data?.filter(
         (product) =>
-          product.id?.toString().includes(search.toString().toLowerCase()) ||
+          product.id?.toString().toLowerCase().includes(search.toLowerCase()) ||
+          product.id
+            ?.toString()
+            .toLowerCase()
+            .includes("p" + search.toLowerCase()) ||
           product.title?.toLowerCase().includes(search.toLowerCase()) ||
           product.catTitle?.toLowerCase().includes(search.toLowerCase())
       )

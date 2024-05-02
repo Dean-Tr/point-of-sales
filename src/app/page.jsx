@@ -73,8 +73,8 @@ export default function KasirPage() {
     const grossProfit = products.reduce(
       (acc, product) =>
         acc +
-        (totalItem * currencyToNumber(product.sellPrice) -
-          totalItem * currencyToNumber(product.buyPrice)),
+        (product.quantity * currencyToNumber(product.sellPrice) -
+          product.quantity * currencyToNumber(product.buyPrice)),
       0
     );
 

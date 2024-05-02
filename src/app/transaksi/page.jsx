@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import useSearchAndPagination from "@/utils/useSearchAndPagination";
 import SearchBar from "@/components/SearchBar";
 import { useQuery } from "@tanstack/react-query";
