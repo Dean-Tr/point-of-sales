@@ -55,3 +55,7 @@ input::-webkit-inner-spin-button {
 .ReactModal__Overlay--before-close {
   opacity: 0;
 }
+
+.break-anywhere {
+  overflow-wrap: anywhere;
+}

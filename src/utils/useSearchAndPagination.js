@@ -52,10 +52,9 @@ function useSearchAndPagination(Items) {
     return new Date(b.date) - new Date(a.date);
   }
 
-  // Custom comparison function to sort by title
   function compareTitles(a, b) {
-    const titleA = a.title?.toUpperCase(); // ignore upper and lowercase
-    const titleB = b.title?.toUpperCase(); // ignore upper and lowercase
+    const titleA = a.title?.toUpperCase();
+    const titleB = b.title?.toUpperCase();
 
     if (titleA < titleB) {
       return -1;
@@ -64,18 +63,26 @@ function useSearchAndPagination(Items) {
       return 1;
     }
 
-    // titles are equal
     return 0;
   }
 
+  function compareStockProduct(a, b) {
+    // Sort by items with stock <= minStock appearing first
+    if (a.stock <= a.minStock && b.stock > b.minStock) return -1;
+    if (a.stock > a.minStock && b.stock <= b.minStock) return 1;
+    // Sort by title if both items have the same stock comparison
+    return a.title?.localeCompare(b.title);
+  }
+
   const currentPage = Number(searchParams.get("page")) || 1;
-  const itemsPerPage = 8;
+  const itemsPerPage = 5;
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = Math.min(startIndex + itemsPerPage, filteredItems.length);
   const paginatedItems = filteredItems
     .sort(compareTitles)
     .sort(compareDates)
+    .sort(compareStockProduct)
     .slice(startIndex, endIndex);
 
   return { paginatedItems, currentPage, totalPages, itemsPerPage };

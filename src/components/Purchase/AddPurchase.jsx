@@ -316,10 +316,17 @@ const AddPurchase = () => {
                             </thead>
                             <tbody>
                               {filteredProducts.map((item, index) => (
-                                <tr className="border-b border-neutral-200" key={item.id}>
+                                <tr
+                                  key={item.id}
+                                  className={`border-b border-neutral-200 ${
+                                    item.stock <= item.minStock ? "bg-red-500 text-black" : ""
+                                  }`}
+                                >
                                   <td className="whitespace-nowrap px-6 py-1">{index + 1}</td>
                                   <td className="whitespace-nowrap px-6 py-1">{item.id}</td>
-                                  <td className="whitespace-nowrap px-6 py-1">{item.title}</td>
+                                  <td className="break-anywhere px-6 py-10 max-w-40">
+                                    {item.title}
+                                  </td>
                                   <td className="whitespace-nowrap px-6 py-1">{item.catTitle}</td>
                                   <td className="whitespace-nowrap px-6 py-1">{item.stock}</td>
                                   <td className="whitespace-nowrap px-6 py-1">
@@ -384,7 +391,7 @@ const AddPurchase = () => {
                             <tr className="border-b border-neutral-200" key={item.id}>
                               <td className="whitespace-nowrap px-6 py-1">{index + 1}</td>
                               <td className="whitespace-nowrap px-6 py-1">{item.id}</td>
-                              <td className="whitespace-nowrap px-6 py-1">{item.title}</td>
+                              <td className="break-anywhere px-6 py-10 max-w-40">{item.title}</td>
                               <td className="whitespace-nowrap px-6 py-1">
                                 {currencyToNumber(item.buyPrice).toLocaleString("id-ID", {
                                   style: "currency",

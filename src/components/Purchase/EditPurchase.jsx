@@ -1,6 +1,5 @@
 "use client";
 
-import Button from "../Button";
 import Modal from "react-modal";
 import { currencyToNumber, numberToCurrency } from "@/utils/convertToCurrency";
 import { useEffect, useState } from "react";
@@ -200,7 +199,7 @@ const EditPurchase = ({ item }) => {
       }
     },
     onSuccess(data) {
-      queryClient.invalidateQueries({ queryKey: ["purchases", "products"] });
+      queryClient.invalidateQueries({ queryKey: ["purchases"] });
       if (data.status === 200) {
         toast.success("Pembelian berhasil diperbarui!", { position: "bottom-right" });
         setIsOpenModal(false);
@@ -335,10 +334,17 @@ const EditPurchase = ({ item }) => {
                             </thead>
                             <tbody>
                               {filteredProducts.map((item, index) => (
-                                <tr className="border-b border-neutral-200" key={item.id}>
+                                <tr
+                                  key={item.id}
+                                  className={`border-b border-neutral-200 ${
+                                    item.stock <= item.minStock ? "bg-red-500 text-black" : ""
+                                  }`}
+                                >
                                   <td className="whitespace-nowrap px-6 py-1">{index + 1}</td>
                                   <td className="whitespace-nowrap px-6 py-1">{item.id}</td>
-                                  <td className="whitespace-nowrap px-6 py-1">{item.title}</td>
+                                  <td className="break-anywhere px-6 py-10 max-w-40">
+                                    {item.title}
+                                  </td>
                                   <td className="whitespace-nowrap px-6 py-1">{item.catTitle}</td>
                                   <td className="whitespace-nowrap px-6 py-1">{item.stock}</td>
                                   <td className="whitespace-nowrap px-6 py-1">
@@ -403,7 +409,7 @@ const EditPurchase = ({ item }) => {
                             <tr className="border-b border-neutral-200" key={item.id}>
                               <td className="whitespace-nowrap px-6 py-1">{index + 1}</td>
                               <td className="whitespace-nowrap px-6 py-1">{item.id}</td>
-                              <td className="whitespace-nowrap px-6 py-1">{item.title}</td>
+                              <td className="break-anywhere px-6 py-10 max-w-40">{item.title}</td>
                               <td className="whitespace-nowrap px-6 py-1">
                                 {currencyToNumber(item.buyPrice).toLocaleString("id-ID", {
                                   style: "currency",
