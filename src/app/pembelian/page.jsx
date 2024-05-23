@@ -6,7 +6,6 @@ import useSearchAndPagination from "@/utils/useSearchAndPagination";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { currencyToNumber } from "@/utils/convertToCurrency";
-import Image from "next/image";
 import AddPurchase from "@/components/Purchase/AddPurchase";
 import ShowPurchase from "@/components/Purchase/ShowPurchase";
 import DeletePurchase from "@/components/Purchase/DeletePurchase";

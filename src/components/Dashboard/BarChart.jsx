@@ -13,7 +13,7 @@ import { Bar } from "react-chartjs-2";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const BarChart = () => {
+const BarChart = ({ reportData }) => {
   const [data, setData] = useState({
     datasets: [],
   });
@@ -31,10 +31,23 @@ const BarChart = () => {
     }
     return dates;
   }
-
   const last30Days = getLast30Days();
 
-  // ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  const thirtyDaysAgo = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 29);
+  thirtyDaysAgo.setHours(23, 59, 59, 999);
+
+  const netProfits = [];
+  for (let d = thirtyDaysAgo; d < tomorrow; d.setDate(d.getDate() + 1)) {
+    const dateStr = d.toISOString().slice(0, 10);
+    const item = reportData.find((item) => item.date.startsWith(dateStr));
+    netProfits.push(item ? parseInt(item.netProfit) : 0);
+  }
 
   useEffect(() => {
     setData({
@@ -42,7 +55,7 @@ const BarChart = () => {
       datasets: [
         {
           label: "Keuntungan",
-          data: [134, 143, 154, 122, 165, 151, 119, 111, 199, 170],
+          data: netProfits,
           backgroundColor: "rgba(59, 130, 246, 1)",
         },
       ],
