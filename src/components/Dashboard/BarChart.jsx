@@ -15,9 +15,18 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 const BarChart = ({ reportData }) => {
   const [data, setData] = useState({
+    labels: [],
     datasets: [],
   });
-  const [option, setOption] = useState({});
+  const [options, setOptions] = useState({
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: "top",
+      },
+    },
+  });
 
   function getLast30Days() {
     let dates = [];
@@ -31,6 +40,7 @@ const BarChart = ({ reportData }) => {
     }
     return dates;
   }
+
   const last30Days = getLast30Days();
 
   const today = new Date();
@@ -61,20 +71,15 @@ const BarChart = ({ reportData }) => {
       ],
     });
 
-    setOption({
-      responsive: true,
+    setOptions((prevOptions) => ({
+      ...prevOptions,
       maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: "top",
-        },
-      },
-    });
-  }, []);
+    }));
+  }, [reportData]); // Adding reportData as a dependency to ensure it updates when reportData changes
 
   return (
     <div className="h-full w-full p-3">
-      <Bar options={option} data={data} />
+      <Bar options={options} data={data} />
     </div>
   );
 };

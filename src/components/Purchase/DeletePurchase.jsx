@@ -61,7 +61,9 @@ const DeletePurchase = ({ item }) => {
         onClick={() => setIsOpenModal(true)}
         className="mx-1 p-2 px-2 bg-red-500 rounded-md text-white flex gap-1 items-center"
       >
-        <Image src="/delete.png" alt="" width={20} height={20} />
+        <div className="hidden md:flex">
+          <Image src="/delete.png" alt="" width={20} height={20} />
+        </div>
         <p>Hapus</p>
       </button>
       <Modal

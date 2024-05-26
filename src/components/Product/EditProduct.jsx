@@ -116,7 +116,9 @@ const EditProduct = ({ item }) => {
           onClick={() => setIsOpenModal(true)}
           className="mx-1 p-2 px-2 bg-blue-500 rounded-md text-white flex gap-1 items-center"
         >
-          <Image src="/edit.png" alt="" width={20} height={20} />
+          <div className="hidden md:flex">
+            <Image src="/edit.png" alt="" width={20} height={20} />
+          </div>
           <p>Edit</p>
         </button>
       </div>

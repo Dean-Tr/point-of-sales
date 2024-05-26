@@ -92,7 +92,7 @@ const SelectPeriode = ({ setReportsData }) => {
             }
             closeTimeoutMS={300}
           >
-            <p className="text-center items-center">Memproses Pembelian...</p>
+            <p className="text-center items-center">Mengambil Data...</p>
           </Modal>
         ) : (
           <Modal
