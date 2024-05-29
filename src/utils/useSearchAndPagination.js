@@ -49,7 +49,15 @@ function useSearchAndPagination(Items) {
     : [];
 
   function compareDates(a, b) {
-    return new Date(b.date) - new Date(a.date);
+    if (a.date) {
+      return new Date(b.date) - new Date(a.date);
+    } else {
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    }
+  }
+
+  function compareCreatedAt(a, b) {
+    return new Date(b.createdAt) - new Date(a.createdAt);
   }
 
   function compareTitles(a, b) {

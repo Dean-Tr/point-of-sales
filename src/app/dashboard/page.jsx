@@ -3,7 +3,6 @@
 import BarChart from "@/components/Dashboard/BarChart";
 import DashboardCard from "@/components/Dashboard/DashboardCard";
 import { useQuery } from "@tanstack/react-query";
-import { Transactions, Products, Expenses, Category } from "@/data";
 import LoadingSpinner from "@/components/LoadingSpinner";
 
 const DashboardPage = () => {
@@ -93,18 +92,18 @@ const DashboardPage = () => {
           img={"/produk.png"}
           color={"blue"}
           title={"Total Produk"}
-          content={`${Products.length} Produk`}
+          content={`${productData.length} Produk`}
         />
 
         <DashboardCard
           img={"/kategori.png"}
           color={"amber"}
           title={"Total Kategori"}
-          content={`${Category.length} Kategori`}
+          content={`${categoryData.length} Kategori`}
         />
 
         <DashboardCard
-          img={"/transaksi.png"}
+          img={"/pengeluaran.png"}
           color={"red"}
           title={"Total Pengeluaran"}
           content={totalExpenses.toLocaleString("id-ID", {
