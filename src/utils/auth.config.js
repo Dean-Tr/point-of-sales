@@ -20,10 +20,15 @@ export const authConfig = {
     authorized({ auth, request }) {
       const user = auth?.user;
       const isOnLoginPage = request.nextUrl?.pathname.startsWith("/login");
+      const isOnRegisterPage = request.nextUrl?.pathname.startsWith("/register");
 
       // ONLY AUTHENTICATED USERS CAN REACH THE REST OF THE PAGE
-      if (!user) {
+      if (!user && !isOnRegisterPage) {
         return false;
+      }
+
+      if (!user && isOnRegisterPage) {
+        return true;
       }
 
       // ONLY UNAUTHENTICATED USERS CAN REACH THE LOGIN PAGE

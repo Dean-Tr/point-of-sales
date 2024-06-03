@@ -81,7 +81,7 @@ const PayTransaction = ({ inputs, products, setInputs, setProducts }) => {
 
     setReceiptLoader(true);
 
-    html2canvas(capture, { scale: 5 }).then((canvas) => {
+    html2canvas(capture, { scale: 3 }).then((canvas) => {
       const desiredAspectRatio = 80 / 80;
       const contentWidth = 80; // Desired width in mm
       const calculatedHeight = (contentWidth / desiredAspectRatio) * (canvas.height / canvas.width); // Calculate the height based on the aspect ratio
@@ -90,13 +90,14 @@ const PayTransaction = ({ inputs, products, setInputs, setProducts }) => {
         orientation: "portrait",
         unit: "mm",
         format: [contentWidth, calculatedHeight], // Set the PDF dimensions based on the content height
+        compress: true,
       });
 
       const componentWidth = doc.internal.pageSize.getWidth();
       const componentHeight = doc.internal.pageSize.getHeight();
 
-      const imgData = canvas.toDataURL("img/png");
-      doc.addImage(imgData, "PNG", 0, 0, componentWidth, componentHeight);
+      const imgData = canvas.toDataURL("img/jpeg", 0.7);
+      doc.addImage(imgData, "JPEG", 0, 0, componentWidth, componentHeight);
 
       setReceiptLoader(false);
 

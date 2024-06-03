@@ -1,6 +1,5 @@
 "use client";
 
-import LoadingSpinner from "@/components/LoadingSpinner";
 import SelectPeriode from "@/components/Report/SelectPeriode";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
@@ -33,11 +32,16 @@ const LaporanPage = () => {
   const downloadPDF = () => {
     const tFoot = document.querySelector("#tableTotal");
     tFoot.classList.remove("sticky");
+    const tHead = document.querySelector("#tableHead");
+    tHead.classList.remove("sticky");
 
     const capture = document.querySelector("#report");
     setReceiptLoader(true);
-    html2canvas(capture, { scale: 5 }).then((canvas) => {
-      const imgData = canvas.toDataURL("image/png");
+
+    // Reduce the scale to 2 (you can adjust this value as needed)
+    html2canvas(capture, { scale: 2 }).then((canvas) => {
+      // Convert canvas to JPEG instead of PNG and specify quality
+      const imgData = canvas.toDataURL("image/jpeg", 0.7); // Adjust quality from 0.0 to 1.0
       const imgWidth = 297; // A4 width in mm (landscape)
       const pageHeight = 210; // A4 height in mm (landscape)
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
@@ -47,23 +51,25 @@ const LaporanPage = () => {
         orientation: "landscape",
         unit: "mm",
         format: "a4",
+        compress: true, // Enable compression
       });
 
       let position = 0;
 
-      doc.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+      doc.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight);
       heightLeft -= pageHeight;
 
       while (heightLeft >= 0) {
         position = heightLeft - imgHeight;
         doc.addPage();
-        doc.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+        doc.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight);
         heightLeft -= pageHeight;
       }
 
       setReceiptLoader(false);
 
       tFoot.classList.add("sticky");
+      tHead.classList.add("sticky");
 
       doc.save(
         `LAPORAN_${reportsData[0]?.date?.split("T")[0]}_${
@@ -123,7 +129,7 @@ const LaporanPage = () => {
       <div className="h-[calc(100vh-17rem)] md:h-[calc(100vh-13rem)] overflow-y-auto">
         <table className="text-center w-full md:text-lg" id="report">
           <thead className="border-b-2 border-neutral-200 font-medium">
-            <tr className="sticky top-0 bg-white">
+            <tr className="sticky top-0 bg-white" id="tableHead">
               <th scope="col" className="px-6 py-3 w-[4%]">
                 #
               </th>

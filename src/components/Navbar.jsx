@@ -25,6 +25,10 @@ const Navbar = () => {
     return "";
   }
 
+  if (pathname === "/register") {
+    return "";
+  }
+
   return (
     <div className="h-12 md:h-screen w-screen md:w-[3rem] bg-blue-600 flex flex-col md:items-center ">
       <div className="flex h-full md:h-12 ">
