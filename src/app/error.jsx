@@ -1,4 +1,4 @@
-// pages/_error.js
+"use client";
 import { useEffect } from "react";
 
 const Error = ({ statusCode, message, stack }) => {
