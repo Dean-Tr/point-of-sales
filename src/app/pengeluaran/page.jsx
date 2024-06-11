@@ -63,38 +63,41 @@ const PengeluaranPage = () => {
             </tr>
           </thead>
           <tbody>
-            {paginatedItems.map((item, index) => (
-              <tr className="border-b border-neutral-200" key={item.id}>
-                <td className="whitespace-nowrap px-6 py-1">
-                  {(currentPage - 1) * itemsPerPage + index + 1}
-                </td>
-                <td className="whitespace-nowrap px-6 py-1">
-                  {new Date(item.date).toLocaleString("id-ID", {
-                    dateStyle: "full",
-                  })}
-                </td>
-                <td className="whitespace-pre px-6 py-1 overflow-auto">
-                  {item.desc.length > 12 ? item.desc.substring(0, 12) + "..." : item.desc}
-                </td>
-                <td className="whitespace-nowrap px-6 py-1">
-                  {currencyToNumber(item.nominal).toLocaleString("id-ID", {
-                    style: "currency",
-                    currency: "IDR",
-                    minimumFractionDigits: 0,
-                  })}
-                </td>
-                <td className="whitespace-nowrap px-6 py-1 h-20 md:h-24 w-56 md:w-full flex justify-center items-center">
-                  <ShowExpense item={item} />
-                  <EditExpense item={item} />
-                  <DeleteExpense id={item.id} />
-                </td>
-              </tr>
-            ))}
+            <Suspense>
+              {paginatedItems.map((item, index) => (
+                <tr className="border-b border-neutral-200" key={item.id}>
+                  <td className="whitespace-nowrap px-6 py-1">
+                    {(currentPage - 1) * itemsPerPage + index + 1}
+                  </td>
+                  <td className="whitespace-nowrap px-6 py-1">
+                    {new Date(item.date).toLocaleString("id-ID", {
+                      dateStyle: "full",
+                    })}
+                  </td>
+                  <td className="whitespace-pre px-6 py-1 overflow-auto">
+                    {item.desc.length > 12 ? item.desc.substring(0, 12) + "..." : item.desc}
+                  </td>
+                  <td className="whitespace-nowrap px-6 py-1">
+                    {currencyToNumber(item.nominal).toLocaleString("id-ID", {
+                      style: "currency",
+                      currency: "IDR",
+                      minimumFractionDigits: 0,
+                    })}
+                  </td>
+                  <td className="whitespace-nowrap px-6 py-1 h-20 md:h-24 w-56 md:w-full flex justify-center items-center">
+                    <ShowExpense item={item} />
+                    <EditExpense item={item} />
+                    <DeleteExpense id={item.id} />
+                  </td>
+                </tr>
+              ))}
+            </Suspense>
           </tbody>
         </table>
       </div>
-
-      {totalPages > 1 && <PaginationControls currentPage={currentPage} totalPages={totalPages} />}
+      <Suspense>
+        {totalPages > 1 && <PaginationControls currentPage={currentPage} totalPages={totalPages} />}
+      </Suspense>
     </div>
   );
 };

@@ -63,36 +63,39 @@ const TransaksiPage = () => {
             </tr>
           </thead>
           <tbody>
-            {paginatedItems.map((item, index) => (
-              <tr className="border-b border-neutral-200" key={item.id}>
-                <td className="whitespace-nowrap px-3 py-1">
-                  {(currentPage - 1) * itemsPerPage + index + 1}
-                </td>
-                <td className="whitespace-nowrap px-3 py-1">
-                  {new Date(item.createdAt.split("T")[0]).toLocaleString("id-ID", {
-                    dateStyle: "full",
-                  })}
-                </td>
-                <td className="whitespace-nowrap px-3 py-1">{item.id}</td>
-                <td className="whitespace-nowrap px-3 py-1">{item.totalItem}</td>
-                <td className="whitespace-nowrap px-3 py-1">
-                  {currencyToNumber(item.totalTransaction).toLocaleString("id-ID", {
-                    style: "currency",
-                    currency: "IDR",
-                    minimumFractionDigits: 0,
-                  })}
-                </td>
-                <td className="whitespace-nowrap px-3 py-1 h-20 md:h-24 w-56 md:w-full flex justify-center items-center">
-                  <ShowTransaction item={item} />
-                  <DownloadTransaction item={item} />
-                </td>
-              </tr>
-            ))}
+            <Suspense>
+              {paginatedItems.map((item, index) => (
+                <tr className="border-b border-neutral-200" key={item.id}>
+                  <td className="whitespace-nowrap px-3 py-1">
+                    {(currentPage - 1) * itemsPerPage + index + 1}
+                  </td>
+                  <td className="whitespace-nowrap px-3 py-1">
+                    {new Date(item.createdAt.split("T")[0]).toLocaleString("id-ID", {
+                      dateStyle: "full",
+                    })}
+                  </td>
+                  <td className="whitespace-nowrap px-3 py-1">{item.id}</td>
+                  <td className="whitespace-nowrap px-3 py-1">{item.totalItem}</td>
+                  <td className="whitespace-nowrap px-3 py-1">
+                    {currencyToNumber(item.totalTransaction).toLocaleString("id-ID", {
+                      style: "currency",
+                      currency: "IDR",
+                      minimumFractionDigits: 0,
+                    })}
+                  </td>
+                  <td className="whitespace-nowrap px-3 py-1 h-20 md:h-24 w-56 md:w-full flex justify-center items-center">
+                    <ShowTransaction item={item} />
+                    <DownloadTransaction item={item} />
+                  </td>
+                </tr>
+              ))}
+            </Suspense>
           </tbody>
         </table>
       </div>
-
-      {totalPages > 1 && <PaginationControls currentPage={currentPage} totalPages={totalPages} />}
+      <Suspense>
+        {totalPages > 1 && <PaginationControls currentPage={currentPage} totalPages={totalPages} />}
+      </Suspense>
     </div>
   );
 };

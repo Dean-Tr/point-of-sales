@@ -75,50 +75,53 @@ const ProdukPage = () => {
             </tr>
           </thead>
           <tbody>
-            {paginatedItems.map((item, index) => (
-              <tr
-                key={item.id}
-                className={`border-b border-neutral-200 ${
-                  item.stock <= item.minStock ? "bg-red-300" : ""
-                }`}
-              >
-                <td className="whitespace-nowrap px-6 py-1">
-                  {(currentPage - 1) * itemsPerPage + index + 1}
-                </td>
-                <td className="whitespace-nowrap px-6 py-1">{item.id}</td>
-                <td className="whitespace-nowrap px-6 py-1">
-                  {item.img && (
-                    <Image src={item.img} alt="" width={50} height={50} className="mx-auto" />
-                  )}
-                </td>
-                <td className="break-anywhere px-6 py-10 max-w-40">{item.title}</td>
-                <td className="whitespace-nowrap px-6 py-1">{item.catTitle}</td>
-                <td className="whitespace-nowrap px-6 py-1">{item.stock}</td>
-                <td className="whitespace-nowrap px-6 py-1">
-                  {currencyToNumber(item.buyPrice).toLocaleString("id-ID", {
-                    style: "currency",
-                    currency: "IDR",
-                    minimumFractionDigits: 0,
-                  })}
-                </td>
-                <td className="whitespace-nowrap px-6 py-1">
-                  {currencyToNumber(item.sellPrice).toLocaleString("id-ID", {
-                    style: "currency",
-                    currency: "IDR",
-                    minimumFractionDigits: 0,
-                  })}
-                </td>
-                <td className="whitespace-nowrap px-6 py-1 h-20 md:h-24 w-56 md:w-full flex justify-center items-center">
-                  <EditProduct item={item} />
-                  <DeleteProduct id={item.id} img={item.img} />
-                </td>
-              </tr>
-            ))}
+            <Suspense>
+              {paginatedItems.map((item, index) => (
+                <tr
+                  key={item.id}
+                  className={`border-b border-neutral-200 ${
+                    item.stock <= item.minStock ? "bg-red-300" : ""
+                  }`}
+                >
+                  <td className="whitespace-nowrap px-6 py-1">
+                    {(currentPage - 1) * itemsPerPage + index + 1}
+                  </td>
+                  <td className="whitespace-nowrap px-6 py-1">{item.id}</td>
+                  <td className="whitespace-nowrap px-6 py-1">
+                    {item.img && (
+                      <Image src={item.img} alt="" width={50} height={50} className="mx-auto" />
+                    )}
+                  </td>
+                  <td className="break-anywhere px-6 py-10 max-w-40">{item.title}</td>
+                  <td className="whitespace-nowrap px-6 py-1">{item.catTitle}</td>
+                  <td className="whitespace-nowrap px-6 py-1">{item.stock}</td>
+                  <td className="whitespace-nowrap px-6 py-1">
+                    {currencyToNumber(item.buyPrice).toLocaleString("id-ID", {
+                      style: "currency",
+                      currency: "IDR",
+                      minimumFractionDigits: 0,
+                    })}
+                  </td>
+                  <td className="whitespace-nowrap px-6 py-1">
+                    {currencyToNumber(item.sellPrice).toLocaleString("id-ID", {
+                      style: "currency",
+                      currency: "IDR",
+                      minimumFractionDigits: 0,
+                    })}
+                  </td>
+                  <td className="whitespace-nowrap px-6 py-1 h-20 md:h-24 w-56 md:w-full flex justify-center items-center">
+                    <EditProduct item={item} />
+                    <DeleteProduct id={item.id} img={item.img} />
+                  </td>
+                </tr>
+              ))}
+            </Suspense>
           </tbody>
         </table>
       </div>
-
-      {totalPages > 1 && <PaginationControls currentPage={currentPage} totalPages={totalPages} />}
+      <Suspense>
+        {totalPages > 1 && <PaginationControls currentPage={currentPage} totalPages={totalPages} />}
+      </Suspense>
     </div>
   );
 };

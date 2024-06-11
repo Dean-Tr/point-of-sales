@@ -55,22 +55,26 @@ const KategoriPage = () => {
             </tr>
           </thead>
           <tbody>
-            {paginatedItems.map((item, index) => (
-              <tr className="border-b border-neutral-200" key={item.id}>
-                <td className="whitespace-nowrap px-6 py-1">
-                  {(currentPage - 1) * itemsPerPage + index + 1}
-                </td>
-                <td className="whitespace-nowrap px-6 py-1">{item.title}</td>
-                <td className="whitespace-nowrap px-6 py-1 h-20 md:h-24 w-56 md:w-full flex justify-center items-center">
-                  <EditCategory item={item} />
-                  <DeleteCategory id={item.id} />
-                </td>
-              </tr>
-            ))}
+            <Suspense>
+              {paginatedItems.map((item, index) => (
+                <tr className="border-b border-neutral-200" key={item.id}>
+                  <td className="whitespace-nowrap px-6 py-1">
+                    {(currentPage - 1) * itemsPerPage + index + 1}
+                  </td>
+                  <td className="whitespace-nowrap px-6 py-1">{item.title}</td>
+                  <td className="whitespace-nowrap px-6 py-1 h-20 md:h-24 w-56 md:w-full flex justify-center items-center">
+                    <EditCategory item={item} />
+                    <DeleteCategory id={item.id} />
+                  </td>
+                </tr>
+              ))}
+            </Suspense>
           </tbody>
         </table>
       </div>
-      {totalPages > 1 && <PaginationControls currentPage={currentPage} totalPages={totalPages} />}
+      <Suspense>
+        {totalPages > 1 && <PaginationControls currentPage={currentPage} totalPages={totalPages} />}
+      </Suspense>
     </div>
   );
 };
