@@ -9,11 +9,12 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import { currencyToNumber } from "@/utils/convertToCurrency";
 import PayTransaction from "@/components/Cashier/PayTransaction";
 import { toast } from "react-toastify";
+import baseURL from "@/utils/baseURL";
 
 export default function KasirPage() {
   const { isPending, error, data } = useQuery({
     queryKey: ["products"],
-    queryFn: () => fetch(`http://localhost:3000/api/products`).then((res) => res.json()),
+    queryFn: () => fetch(`${baseURL}/api/products`).then((res) => res.json()),
   });
 
   const [search, setSearch] = useState("");

@@ -8,11 +8,12 @@ import { useQuery } from "@tanstack/react-query";
 import DeleteCategory from "@/components/Category/DeleteCategory";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import EditCategory from "@/components/Category/EditCategory";
+import baseURL from "@/utils/baseURL";
 
 const KategoriPage = () => {
   const { isPending, error, data } = useQuery({
     queryKey: ["categories"],
-    queryFn: () => fetch(`http://localhost:3000/api/categories`).then((res) => res.json()),
+    queryFn: () => fetch(`${baseURL}/api/categories`).then((res) => res.json()),
   });
 
   const { paginatedItems, currentPage, totalPages, itemsPerPage } = useSearchAndPagination(

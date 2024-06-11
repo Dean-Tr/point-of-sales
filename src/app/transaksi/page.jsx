@@ -8,11 +8,12 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import { currencyToNumber } from "@/utils/convertToCurrency";
 import ShowTransaction from "@/components/Transaction/ShowTransaction";
 import DownloadTransaction from "@/components/Transaction/DownloadTransaction";
+import baseURL from "@/utils/baseURL";
 
 const TransaksiPage = () => {
   const { isPending, error, data } = useQuery({
     queryKey: ["transactions"],
-    queryFn: () => fetch(`http://localhost:3000/api/transactions`).then((res) => res.json()),
+    queryFn: () => fetch(`${baseURL}/api/transactions`).then((res) => res.json()),
   });
 
   const { paginatedItems, currentPage, totalPages, itemsPerPage } = useSearchAndPagination(

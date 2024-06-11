@@ -5,6 +5,7 @@ import Modal from "react-modal";
 import Image from "next/image";
 import { toast } from "react-toastify";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import baseURL from "@/utils/baseURL";
 
 const EditCategory = ({ item }) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -30,7 +31,7 @@ const EditCategory = ({ item }) => {
     mutationFn: async ({ id }) => {
       setLoading(true);
       try {
-        const response = await fetch(`http://localhost:3000/api/categories/${id}`, {
+        const response = await fetch(`${baseURL}/api/categories/${id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(input),

@@ -4,6 +4,7 @@ import BarChart from "@/components/Dashboard/BarChart";
 import DashboardCard from "@/components/Dashboard/DashboardCard";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import baseURL from "@/utils/baseURL";
 
 const DashboardPage = () => {
   const {
@@ -12,7 +13,7 @@ const DashboardPage = () => {
     data: categoryData,
   } = useQuery({
     queryKey: ["categories"],
-    queryFn: () => fetch(`http://localhost:3000/api/categories`).then((res) => res.json()),
+    queryFn: () => fetch(`${baseURL}/api/categories`).then((res) => res.json()),
   });
 
   const {
@@ -21,7 +22,7 @@ const DashboardPage = () => {
     data: productData,
   } = useQuery({
     queryKey: ["products"],
-    queryFn: () => fetch(`http://localhost:3000/api/products`).then((res) => res.json()),
+    queryFn: () => fetch(`${baseURL}/api/products`).then((res) => res.json()),
   });
 
   const {
@@ -30,7 +31,7 @@ const DashboardPage = () => {
     data: expenseData,
   } = useQuery({
     queryKey: ["expenses"],
-    queryFn: () => fetch(`http://localhost:3000/api/expenses`).then((res) => res.json()),
+    queryFn: () => fetch(`${baseURL}/api/expenses`).then((res) => res.json()),
   });
 
   const {
@@ -39,7 +40,7 @@ const DashboardPage = () => {
     data: transactionData,
   } = useQuery({
     queryKey: ["transactions"],
-    queryFn: () => fetch(`http://localhost:3000/api/transactions`).then((res) => res.json()),
+    queryFn: () => fetch(`${baseURL}/api/transactions`).then((res) => res.json()),
   });
 
   const currentDate = new Date();
@@ -55,7 +56,7 @@ const DashboardPage = () => {
   } = useQuery({
     queryKey: ["reports"],
     queryFn: () =>
-      fetch(`http://localhost:3000/api/reports`, {
+      fetch(`${baseURL}/api/reports`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

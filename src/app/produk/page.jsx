@@ -10,11 +10,12 @@ import useSearchAndPagination from "@/utils/useSearchAndPagination";
 import DeleteProduct from "@/components/Product/DeleteProduct";
 import EditProduct from "@/components/Product/EditProduct";
 import { currencyToNumber } from "@/utils/convertToCurrency";
+import baseURL from "@/utils/baseURL";
 
 const ProdukPage = () => {
   const { isPending, error, data } = useQuery({
     queryKey: ["products"],
-    queryFn: () => fetch(`http://localhost:3000/api/products`).then((res) => res.json()),
+    queryFn: () => fetch(`${baseURL}/api/products`).then((res) => res.json()),
   });
 
   const { paginatedItems, currentPage, totalPages, itemsPerPage } = useSearchAndPagination(

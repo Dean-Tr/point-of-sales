@@ -4,6 +4,7 @@ import { currencyToNumber, numberToCurrency } from "@/utils/convertToCurrency";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import baseURL from "@/utils/baseURL";
 
 const EditExpense = ({ item }) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -42,7 +43,7 @@ const EditExpense = ({ item }) => {
       setLoading(true);
 
       try {
-        const response = await fetch(`http://localhost:3000/api/expenses/${id}`, {
+        const response = await fetch(`${baseURL}/api/expenses/${id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

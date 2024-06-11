@@ -3,6 +3,7 @@ import Button from "../Button";
 import Modal from "react-modal";
 import { toast } from "react-toastify";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import baseURL from "@/utils/baseURL";
 
 const SelectPeriode = ({ setReportsData }) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -34,7 +35,7 @@ const SelectPeriode = ({ setReportsData }) => {
       setLoading(true);
 
       try {
-        const response = await fetch(`http://localhost:3000/api/reports/`, {
+        const response = await fetch(`${baseURL}/api/reports/`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

@@ -10,11 +10,12 @@ import AddPurchase from "@/components/Purchase/AddPurchase";
 import ShowPurchase from "@/components/Purchase/ShowPurchase";
 import DeletePurchase from "@/components/Purchase/DeletePurchase";
 import EditPurchase from "@/components/Purchase/EditPurchase";
+import baseURL from "@/utils/baseURL";
 
 const PembelianPage = () => {
   const { isPending, error, data } = useQuery({
     queryKey: ["purchases"],
-    queryFn: () => fetch(`http://localhost:3000/api/purchases`).then((res) => res.json()),
+    queryFn: () => fetch(`${baseURL}/api/purchases`).then((res) => res.json()),
   });
 
   const { paginatedItems, currentPage, totalPages, itemsPerPage } = useSearchAndPagination(

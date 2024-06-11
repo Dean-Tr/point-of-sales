@@ -10,11 +10,12 @@ import { currencyToNumber } from "@/utils/convertToCurrency";
 import ShowExpense from "@/components/Expense/ShowExpense";
 import DeleteExpense from "@/components/Expense/DeleteExpense";
 import EditExpense from "@/components/Expense/EditExpense";
+import baseURL from "@/utils/baseURL";
 
 const PengeluaranPage = () => {
   const { isPending, error, data } = useQuery({
     queryKey: ["expenses"],
-    queryFn: () => fetch(`http://localhost:3000/api/expenses`).then((res) => res.json()),
+    queryFn: () => fetch(`${baseURL}/api/expenses`).then((res) => res.json()),
   });
 
   const { paginatedItems, currentPage, totalPages, itemsPerPage } = useSearchAndPagination(

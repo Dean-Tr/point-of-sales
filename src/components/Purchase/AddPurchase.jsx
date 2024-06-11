@@ -7,11 +7,12 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
+import baseURL from "@/utils/baseURL";
 
 const AddPurchase = () => {
   const { isPending, error, data } = useQuery({
     queryKey: ["products"],
-    queryFn: () => fetch(`http://localhost:3000/api/products`).then((res) => res.json()),
+    queryFn: () => fetch(`${baseURL}/api/products`).then((res) => res.json()),
   });
 
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -159,7 +160,7 @@ const AddPurchase = () => {
       setLoading(true);
 
       try {
-        const response = await fetch(`http://localhost:3000/api/purchases/`, {
+        const response = await fetch(`${baseURL}/api/purchases/`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

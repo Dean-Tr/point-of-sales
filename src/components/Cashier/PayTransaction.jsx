@@ -8,6 +8,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import LoadingSpinner from "../LoadingSpinner";
+import baseURL from "@/utils/baseURL";
 
 const PayTransaction = ({ inputs, products, setInputs, setProducts }) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -116,7 +117,7 @@ const PayTransaction = ({ inputs, products, setInputs, setProducts }) => {
       setLoading(true);
 
       try {
-        const response = await fetch(`http://localhost:3000/api/transactions/`, {
+        const response = await fetch(`${baseURL}/api/transactions/`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

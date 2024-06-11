@@ -5,6 +5,7 @@ import Modal from "react-modal";
 import Button from "../Button";
 import { toast } from "react-toastify";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import baseURL from "@/utils/baseURL";
 
 const AddCategory = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -32,7 +33,7 @@ const AddCategory = () => {
     mutationFn: async () => {
       setLoading(true);
       try {
-        const response = await fetch(`http://localhost:3000/api/categories/`, {
+        const response = await fetch(`${baseURL}/api/categories/`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(input),

@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import Modal from "react-modal";
 import { useState } from "react";
+import baseURL from "@/utils/baseURL";
 
 const DeletePurchase = ({ item }) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -15,7 +16,7 @@ const DeletePurchase = ({ item }) => {
     mutationFn: async () => {
       setLoading(true);
       try {
-        const response = await fetch(`http://localhost:3000/api/purchases/${item.id}`, {
+        const response = await fetch(`${baseURL}/api/purchases/${item.id}`, {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

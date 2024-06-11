@@ -6,11 +6,12 @@ import Button from "../Button";
 import Modal from "react-modal";
 import { toast } from "react-toastify";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import baseURL from "@/utils/baseURL";
 
 const AddProduct = () => {
   const { isPending, error, data } = useQuery({
     queryKey: ["categories"],
-    queryFn: () => fetch(`http://localhost:3000/api/categories`).then((res) => res.json()),
+    queryFn: () => fetch(`${baseURL}/api/categories`).then((res) => res.json()),
   });
 
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -92,7 +93,7 @@ const AddProduct = () => {
         const url = file && (await upload());
         const numericStock = parseInt(inputs.stock);
         const numericMinStock = parseInt(inputs.minStock);
-        const response = await fetch(`http://localhost:3000/api/products/`, {
+        const response = await fetch(`${baseURL}/api/products/`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

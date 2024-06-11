@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import Modal from "react-modal";
 import { useState } from "react";
+import baseURL from "@/utils/baseURL";
 
 const DeleteProduct = ({ id, img }) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -16,7 +17,7 @@ const DeleteProduct = ({ id, img }) => {
       setLoading(true);
       try {
         const publicId = img ? img.match(/\/v\d+\/(.+)\.\w+$/)[1] : "";
-        const response = await fetch(`http://localhost:3000/api/products/${id}`, {
+        const response = await fetch(`${baseURL}/api/products/${id}`, {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ publicId }),

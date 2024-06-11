@@ -6,11 +6,12 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
+import baseURL from "@/utils/baseURL";
 
 const EditPurchase = ({ item }) => {
   const { isPending, error, data } = useQuery({
     queryKey: ["products"],
-    queryFn: () => fetch(`http://localhost:3000/api/products`).then((res) => res.json()),
+    queryFn: () => fetch(`${baseURL}/api/products`).then((res) => res.json()),
   });
 
   const [isOpenModal, setIsOpenModal] = useState(false);
