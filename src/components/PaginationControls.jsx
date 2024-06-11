@@ -1,6 +1,7 @@
 "use client";
 
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import { Suspense } from "react";
 
 function PaginationControls({ currentPage, totalPages }) {
   const searchParams = useSearchParams();
@@ -35,47 +36,49 @@ function PaginationControls({ currentPage, totalPages }) {
   }
 
   return (
-    <div className="mt-5 lg:mt-3 flex gap-3 justify-center items-center">
-      <button
-        onClick={() => {
-          const newPage = Math.max(currentPage - 1, 1);
-          const params = new URLSearchParams(searchParams);
-          params.set("page", newPage.toString());
-          replace(`${pathname}?${params.toString()}`);
-        }}
-        className="text-xl px-3 py-1 border-2 bg-green-600 text-white"
-      >
-        {"<"}
-      </button>
-      <div>
-        {paginationNumbers.map((page) => (
-          <button
-            key={page}
-            onClick={() => {
-              const params = new URLSearchParams(searchParams);
-              params.set("page", page.toString());
-              replace(`${pathname}?${params.toString()}`);
-            }}
-            className={`text-xl px-3 py-1 m-[1px] border-2 ${
-              page == currentPage ? "bg-blue-600 text-white" : ""
-            }`}
-          >
-            {page}
-          </button>
-        ))}
+    <Suspense>
+      <div className="mt-5 lg:mt-3 flex gap-3 justify-center items-center">
+        <button
+          onClick={() => {
+            const newPage = Math.max(currentPage - 1, 1);
+            const params = new URLSearchParams(searchParams);
+            params.set("page", newPage.toString());
+            replace(`${pathname}?${params.toString()}`);
+          }}
+          className="text-xl px-3 py-1 border-2 bg-green-600 text-white"
+        >
+          {"<"}
+        </button>
+        <div>
+          {paginationNumbers.map((page) => (
+            <button
+              key={page}
+              onClick={() => {
+                const params = new URLSearchParams(searchParams);
+                params.set("page", page.toString());
+                replace(`${pathname}?${params.toString()}`);
+              }}
+              className={`text-xl px-3 py-1 m-[1px] border-2 ${
+                page == currentPage ? "bg-blue-600 text-white" : ""
+              }`}
+            >
+              {page}
+            </button>
+          ))}
+        </div>
+        <button
+          onClick={() => {
+            const newPage = Math.min(currentPage + 1, totalPages);
+            const params = new URLSearchParams(searchParams);
+            params.set("page", newPage.toString());
+            replace(`${pathname}?${params.toString()}`);
+          }}
+          className="text-xl px-3 py-1 border-2 bg-green-600 text-white"
+        >
+          {">"}
+        </button>
       </div>
-      <button
-        onClick={() => {
-          const newPage = Math.min(currentPage + 1, totalPages);
-          const params = new URLSearchParams(searchParams);
-          params.set("page", newPage.toString());
-          replace(`${pathname}?${params.toString()}`);
-        }}
-        className="text-xl px-3 py-1 border-2 bg-green-600 text-white"
-      >
-        {">"}
-      </button>
-    </div>
+    </Suspense>
   );
 }
 
