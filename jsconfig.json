@@ -3,5 +3,6 @@
     "paths": {
       "@/*": ["./src/*"]
     }
-  }
+  },
+  "exclude": ["src/app/(auth)/(register)/(page).jsx"]
 }
