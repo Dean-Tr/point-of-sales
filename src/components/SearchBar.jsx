@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
-import { Suspense } from "react";
 
 function SearchBar({ placeholder }) {
   const searchParams = useSearchParams();
@@ -23,22 +22,20 @@ function SearchBar({ placeholder }) {
   }
 
   return (
-    <Suspense>
-      <div className="relative my-2 md:w-1/3 border rounded-md shadow-sm">
-        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-          <Image src="/search.png" alt="" height={20} width={20} />
-        </div>
-        <input
-          className="rounded-md w-full py-2 md:py-3 px-10 text-gray-900 placeholder:text-gray-400 md:text-lg md:leading-8 outline-none"
-          type="text"
-          placeholder={placeholder}
-          onChange={(e) => {
-            handleSearch(e.target.value);
-          }}
-          defaultValue={searchParams.get("q")?.toString()}
-        />
+    <div className="relative my-2 md:w-1/3 border rounded-md shadow-sm">
+      <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+        <Image src="/search.png" alt="" height={20} width={20} />
       </div>
-    </Suspense>
+      <input
+        className="rounded-md w-full py-2 md:py-3 px-10 text-gray-900 placeholder:text-gray-400 md:text-lg md:leading-8 outline-none"
+        type="text"
+        placeholder={placeholder}
+        onChange={(e) => {
+          handleSearch(e.target.value);
+        }}
+        defaultValue={searchParams.get("q")?.toString()}
+      />
+    </div>
   );
 }
 

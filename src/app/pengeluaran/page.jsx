@@ -11,6 +11,7 @@ import ShowExpense from "@/components/Expense/ShowExpense";
 import DeleteExpense from "@/components/Expense/DeleteExpense";
 import EditExpense from "@/components/Expense/EditExpense";
 import baseURL from "@/utils/baseURL";
+import { Suspense } from "react";
 
 const PengeluaranPage = () => {
   const { isPending, error, data } = useQuery({
@@ -35,7 +36,9 @@ const PengeluaranPage = () => {
 
       <div className="flex gap-6 justify-between my-8 items-center ">
         <AddExpense />
-        <SearchBar placeholder={"Cari Pengeluaran..."} />
+        <Suspense>
+          <SearchBar placeholder={"Cari Pengeluaran..."} />
+        </Suspense>
       </div>
 
       <div className="h-[calc(100vh-21rem)] md:h-[calc(100vh-17rem)] overflow-x-auto">

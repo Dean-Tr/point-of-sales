@@ -9,6 +9,7 @@ import { currencyToNumber } from "@/utils/convertToCurrency";
 import ShowTransaction from "@/components/Transaction/ShowTransaction";
 import DownloadTransaction from "@/components/Transaction/DownloadTransaction";
 import baseURL from "@/utils/baseURL";
+import { Suspense } from "react";
 
 const TransaksiPage = () => {
   const { isPending, error, data } = useQuery({
@@ -32,7 +33,9 @@ const TransaksiPage = () => {
       <h1 className="text-3xl font-bold uppercase">Riwayat Transaksi</h1>
 
       <div className="flex gap-6 justify-center md:justify-end my-8 items-center ">
-        <SearchBar placeholder={"Cari Transaksi..."} />
+        <Suspense>
+          <SearchBar placeholder={"Cari Transaksi..."} />
+        </Suspense>
       </div>
 
       <div className="h-[calc(100vh-21rem)] md:h-[calc(100vh-17rem)] overflow-x-auto">

@@ -9,6 +9,7 @@ import DeleteCategory from "@/components/Category/DeleteCategory";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import EditCategory from "@/components/Category/EditCategory";
 import baseURL from "@/utils/baseURL";
+import { Suspense } from "react";
 
 const KategoriPage = () => {
   const { isPending, error, data } = useQuery({
@@ -33,7 +34,9 @@ const KategoriPage = () => {
 
       <div className="flex gap-6 justify-between my-8 items-center ">
         <AddCategory />
-        <SearchBar placeholder={"Cari Kategori..."} />
+        <Suspense>
+          <SearchBar placeholder={"Cari Kategori..."} />
+        </Suspense>
       </div>
 
       <div className="h-[calc(100vh-21rem)] md:h-[calc(100vh-17rem)] overflow-x-auto">

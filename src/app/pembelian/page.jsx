@@ -11,6 +11,7 @@ import ShowPurchase from "@/components/Purchase/ShowPurchase";
 import DeletePurchase from "@/components/Purchase/DeletePurchase";
 import EditPurchase from "@/components/Purchase/EditPurchase";
 import baseURL from "@/utils/baseURL";
+import { Suspense } from "react";
 
 const PembelianPage = () => {
   const { isPending, error, data } = useQuery({
@@ -35,7 +36,9 @@ const PembelianPage = () => {
 
       <div className="flex gap-6 justify-between my-8 items-center ">
         <AddPurchase />
-        <SearchBar placeholder={"Cari Pembelian..."} />
+        <Suspense>
+          <SearchBar placeholder={"Cari Pembelian..."} />
+        </Suspense>
       </div>
 
       <div className="h-[calc(100vh-21rem)] md:h-[calc(100vh-17rem)] overflow-x-auto">

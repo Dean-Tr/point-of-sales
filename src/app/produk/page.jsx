@@ -11,6 +11,7 @@ import DeleteProduct from "@/components/Product/DeleteProduct";
 import EditProduct from "@/components/Product/EditProduct";
 import { currencyToNumber } from "@/utils/convertToCurrency";
 import baseURL from "@/utils/baseURL";
+import { Suspense } from "react";
 
 const ProdukPage = () => {
   const { isPending, error, data } = useQuery({
@@ -35,7 +36,9 @@ const ProdukPage = () => {
 
       <div className="flex gap-6 justify-between my-8 items-center ">
         <AddProduct />
-        <SearchBar placeholder={"Cari Produk..."} />
+        <Suspense>
+          <SearchBar placeholder={"Cari Produk..."} />
+        </Suspense>
       </div>
 
       <div className="h-[calc(100vh-21rem)] md:h-[calc(100vh-17rem)] overflow-x-auto">
