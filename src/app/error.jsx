@@ -8,10 +8,8 @@ const Error = ({ statusCode, message, stack }) => {
   }, [statusCode, message, stack]);
 
   return (
-    <div className="flex justify-center items-center">
-      <h1>
-        {statusCode ? `An error ${statusCode} occurred on server` : "An error occurred on client"}
-      </h1>
+    <div className="h-[calc(100vh-3rem)] md:h-screen w-screen md:w-[calc(100vw-3rem)] flex justify-center items-center">
+      <h1>{statusCode ? `ERROR ${statusCode} TERJADI DI SERVER` : "ERROR TERJADI DI CLIENT"}</h1>
       {message && <p>{message}</p>}
       {stack && <pre>{stack}</pre>}
     </div>
