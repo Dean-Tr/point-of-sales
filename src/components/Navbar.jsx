@@ -58,7 +58,7 @@ const Navbar = () => {
             href={link.url}
             key={link.id}
             onClick={() => setOpen(false)}
-            className={`w-full md:flex gap-4 pl-3 py-6 md:py-4 justify-center md:justify-start hover:bg-blue-500 
+            className={`w-full md:flex gap-4 pl-3 py-4 justify-center md:justify-start hover:bg-blue-500
             ${open ? `flex` : `hidden`} 
             ${pathname === link.url && "bg-blue-500"}
             `}

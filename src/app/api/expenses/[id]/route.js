@@ -1,5 +1,4 @@
 import prisma from "@/utils/connect";
-import { data } from "autoprefixer";
 import { NextResponse } from "next/server";
 
 export const PUT = async (req, { params }) => {

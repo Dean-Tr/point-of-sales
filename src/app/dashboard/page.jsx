@@ -127,7 +127,7 @@ const DashboardPage = () => {
       </div>
 
       <div className="border-2  border-slate-400">
-        <h1 className="text-xl font-bold p-3">Grafik Keuntungan 30 Hari Terakhir</h1>
+        <h1 className="text-sm md:text-xl font-bold p-3">Grafik Keuntungan 30 Hari Terakhir</h1>
         <div className="h-[calc(100vh-24rem)] md:h-[calc(100vh-16rem)] w-full">
           <BarChart reportData={reportData} />
         </div>
