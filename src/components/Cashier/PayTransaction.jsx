@@ -394,6 +394,7 @@ const PayTransaction = ({ inputs, products, setInputs, setProducts }) => {
                       name="cash"
                       id="cash"
                       required
+                      autoComplete="off"
                       value={numberToCurrency(inputs.cash)}
                       onChange={handleInputs}
                       className={`w-full text-sm md:text-lg px-3 py-1 md:leading-8 outline-none border-2 rounded-md `}
@@ -416,7 +417,9 @@ const PayTransaction = ({ inputs, products, setInputs, setProducts }) => {
                       id="change"
                       required
                       disabled
-                      value={numberToCurrency(inputs.change)}
+                      value={
+                        inputs.change < 0 ? "Uangnya kurang!" : numberToCurrency(inputs.change)
+                      }
                       onChange={handleInputs}
                       className={`w-full text-sm md:text-lg px-3 py-1 md:leading-8 outline-none border-2 rounded-md `}
                     />
@@ -424,7 +427,13 @@ const PayTransaction = ({ inputs, products, setInputs, setProducts }) => {
                 </div>
 
                 <div className="flex justify-end border-t mt-3 pt-2">
-                  <button className="bg-blue-600 text-white px-3 py-2 rounded-md">Proses</button>
+                  {inputs.change < 0 ? (
+                    <button className="bg-blue-600 text-white px-3 py-2 rounded-md" disabled>
+                      Proses
+                    </button>
+                  ) : (
+                    <button className="bg-blue-600 text-white px-3 py-2 rounded-md">Proses</button>
+                  )}
                 </div>
               </form>
             </div>
