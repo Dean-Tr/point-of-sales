@@ -107,6 +107,18 @@ const PayTransaction = ({ inputs, products, setInputs, setProducts }) => {
       productsContainer.classList.add("overflow-auto");
 
       doc.save(`STRUK_${dataReceipt.date.split("T")[0]}_${dataReceipt.id}.pdf`);
+
+      // Print the PDF
+      const pdfBlob = doc.output("blob");
+      const pdfUrl = URL.createObjectURL(pdfBlob);
+      const printWindow = window.open(pdfUrl);
+
+      if (printWindow) {
+        printWindow.onload = () => {
+          printWindow.focus();
+          printWindow.print();
+        };
+      }
     });
   };
 
@@ -256,7 +268,7 @@ const PayTransaction = ({ inputs, products, setInputs, setProducts }) => {
                   disabled={!(receiptLoader === false)}
                   className="bg-blue-600 text-white px-3 py-2 rounded-md"
                 >
-                  {receiptLoader ? <span>Mengunduh</span> : <span>Unduh Struk</span>}
+                  {receiptLoader ? <span>Mengunduh</span> : <span>Cetak Struk</span>}
                 </button>
               </div>
             </div>
